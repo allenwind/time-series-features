@@ -20,6 +20,25 @@ import numpy as np
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
 
+"""
+# time series features extractor template
+
+def time_series_xxx(series):
+    # extractor without params
+    pass
+
+class time_series_xxx:
+    # extractor with params
+
+    def __init__(self, params):
+        self.params = params
+
+    def __call__(self, series):
+        pass
+
+"""
+
+
 def time_series_absolute_sum_of_changes(series):
     """
     a measurement of time series change
@@ -728,5 +747,9 @@ def time_series_statistical_features_with_params(series):
     features = []
     return features
 
-def test():
-    pass
+def time_series_features_size():
+    series = np.random.randn(1000)
+    return len(time_series_statistical_features(series))
+
+s = time_series_features_size()
+print(s)

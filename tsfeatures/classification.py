@@ -1,11 +1,5 @@
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
-"""
-see:
-https://tsfresh.readthedocs.io/en/latest/text/list_of_features.html
-https://tsfresh.readthedocs.io/en/latest/api/tsfresh.feature_extraction.html
-"""
-
 def time_series_agg_autocorrelation(series, param):
     return tsfc.agg_autocorrelation(series, param)
 

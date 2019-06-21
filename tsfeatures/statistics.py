@@ -1,43 +1,6 @@
-"""
-open source:
-https://tsfresh.readthedocs.io/en/latest/text/list_of_features.html
-https://tsfresh.readthedocs.io/en/latest/api/tsfresh.feature_extraction.html
-
-Google Doc:
-https://docs.google.com/document/d/1lhUA69hhCyiMnRjMgIRJmkWzrlVG3DkiueBukJ_YkzI/edit
-
-research papers:
-https://conferences2.sigcomm.org/imc/2015/papers/p211.pdf
-
-TODO:
-1. measure time series sudden change
-2. add tests code
-3. set common params
-"""
-
 import pandas as pd
 import numpy as np
 import tsfresh.feature_extraction.feature_calculators as tsfc
-
-
-"""
-# time series features extractor template
-
-def time_series_xxx(series):
-    # extractor without params
-    pass
-
-class time_series_xxx:
-    # extractor with params
-
-    def __init__(self, params):
-        self.params = params
-
-    def __call__(self, series):
-        pass
-
-"""
-
 
 def time_series_absolute_sum_of_changes(series):
     """
@@ -55,25 +18,6 @@ def time_series_mean_abs_change(series):
 
 def time_series_mean_change(series):
     return tsfc.mean_change(series)
-
-def time_series_change_rates(series):
-    """
-    a mesurement of time series change
-
-    :return: change rates of time series
-    :return type: float
-    """
-    return  0
-
-def time_series_has_change_points(series):
-    """"
-    check timeseries change points
-
-    :return: boolean if timeseries has change points
-    :return type: boolean
-    """
-
-    # TODO beysian change points detection
 
 def time_series_maximum(series):
     return tsfc.maximum(series)
@@ -125,15 +69,6 @@ def time_series_sum_of_reoccurring_values(series):
 
 def time_series_range(series):
     return time_series_maximum(series) - time_series_minimum(series)
-
-def time_series_length(series):
-    return tsfc.length(series)
-
-def time_series_duration(series):
-    """
-    TODO
-    """
-    return len(series)
 
 def time_series_count_above_mean(series):
     return tsfc.count_above_mean(series)
@@ -260,29 +195,7 @@ def time_series_maximum_of_derivative(series):
 def time_series_minimum_of_derivative(series):
     return tsfc.minimum(np.diff(series))
 
-def time_series_first_location_of_maximum(series):
-    return tsfc.first_location_of_maximum(series)
 
-def time_series_last_location_of_maximum(series):
-    return tsfc.last_location_of_maximum(series)
-
-def time_series_first_location_of_minimum(series):
-    return tsfc.first_location_of_minimum(series)
-
-def time_series_last_location_of_minimum(series):
-    return tsfc.last_location_of_minimum(series)
-
-def time_series_derivative_first_location_of_maximum(series):
-    return tsfc.first_location_of_maximum(np.diff(series))
-
-def time_series_derivative_last_location_of_maximum(series):
-    return tsfc.last_location_of_maximum(np.diff(series))
-
-def time_series_derivative_first_location_of_minimum(series):
-    return tsfc.first_location_of_minimum(np.diff(series))
-
-def time_series_derivative_last_location_of_minimum(series):
-    return tsfc.last_location_of_minimum(np.diff(series))
 
 
 def time_series_agg_autocorrelation_mean(series, lag):

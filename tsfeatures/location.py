@@ -1,3 +1,5 @@
+import tsfresh.feature_extraction.feature_calculators as tsfc
+
 def time_series_first_location_of_maximum(series):
     return tsfc.first_location_of_maximum(series)
 

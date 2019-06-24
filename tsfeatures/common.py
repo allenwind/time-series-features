@@ -188,24 +188,30 @@ class time_series_autocorrelation:
 
 class time_series_agg_autocorrelation:
 
-    def __init__(self, maxlag, funcs):
+    def __init__(self, maxlag, func):
         if func not in [np.mean, np.median, np.var, np.max]:
             raise ValueError(func)
         self.maxlag = maxlag
-        self.funcs = funcs
+        self.func = func
 
     def __call__(self, series):
         values = []
         for lag in range(1, self.maxlag):
-
-
+            value = tsfc.autocorrelation(series, lag)
+            values.append(value)
+        return self.func(np.array(values))
 
 class time_series_partial_autocorrelation:
 
     # 时序的偏差自相关系数
+    # wiki
+    # https://en.wikipedia.org/wiki/Partial_autocorrelation_function
 
     def __init__(self, lag):
         self.lag = lag
+
+    def __call__(self, series):
+        return tsfc.partial_autocorrelation(series, [{"lag": self.lag}])
 
 def time_series_binned_autocorrelation(series):
     max_bins = [2, 3, 4, 5, 6, 7]
@@ -231,6 +237,7 @@ def time_series_binned_entropy(series):
     return values
 
 def time_series_value_distribution(series):
+    # 数值需要变换到 0, 1 区间上
     thresholds = [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99, 1.0, 1.0]
     return list(np.histogram(series, bins=thresholds)[0] / float(len(series)))
 
@@ -253,11 +260,10 @@ def extract_time_series_features(series):
     # features.append(time_series_hmean(series))
     features.append(time_series_coefficient_of_variation(series))
 
-    # 中心特征
+    # 中心特征 or location
     features.append(time_series_cumsum(series))
     features.append(time_series_abs_cumsum(series))
     features.append(time_series_abs_energy(series))
-    features.append(time_series_absolute_sum_of_changes(series))
     features.append(time_series_count_above_mean(series))
     features.append(time_series_count_below_mean(series))
 

@@ -15,3 +15,6 @@ def time_series_features(series):
     features.extend(time_series_classification_features(series))
     features.extend(time_series_fitting_features(series))
     return features
+
+
+assert compute_features_size(30) == compute_features_size(50)

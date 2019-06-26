@@ -4,7 +4,7 @@
 以及和分类相关的特征. 实现这些特征的基础模块包括: numpy scipy 以及 tsfresh 尽量
 不要使用 tsfresh, 其计算性能慢. 注意:
     1. 特征的维度和 window_size 是否有关.
-    2. 特征计算返回 float or list
+    2. 特征计算返回 float int 类型还是 list 类型.
 """
 
 def time_series_xx(series):

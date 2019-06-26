@@ -17,4 +17,10 @@ def time_series_features(series):
     return features
 
 
+def compute_features_size(window_size=100):
+    series = np.random.uniform(0.1, 10, window_size)
+    return len(extract_time_series_features(series))
+
+
+
 assert compute_features_size(30) == compute_features_size(50)

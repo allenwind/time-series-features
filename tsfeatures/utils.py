@@ -22,6 +22,10 @@ def time_series_cid_distance(series1, series2):
     d = np.sqrt(np.dot(ds, ds)) * max(ce1, ce2) / min(ce1, ce2)
     return d
 
+def time_series_dtw_distance(series1, series2):
+    # http://www.mathcs.emory.edu/~lxiong/cs730_s13/share/slides/searching_sigkdd2012_DTW.pdf
+    # https://pdfs.semanticscholar.org/05a2/0cde15e172fc82f32774dd0cf4fe5827cad2.pdf
+
 def check_time_series_gaussian_noise(series):
     # 高斯白噪声检验
     pass

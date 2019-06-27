@@ -26,4 +26,4 @@ def extract_time_series_all_features(series):
 
 def compute_features_size(window_size=100):
     series = np.random.uniform(0.1, 10, window_size)
-    return len(extract_time_series_features(series))
+    return len(extract_time_series_all_features(series))

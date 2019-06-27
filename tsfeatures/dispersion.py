@@ -53,27 +53,16 @@ def time_series_percentage_of_reoccurring_values_to_all_values(series):
 def time_series_percentage_of_reoccurring_datapoints_to_all_datapoints(series):
     return tsfc.percentage_of_reoccurring_datapoints_to_all_datapoints(series)
 
-def time_series_max_langevin_fixed_point(series: pd.Series, r, m):
+def time_series_max_langevin_fixed_point(series, r, m):
     return tsfc.max_langevin_fixed_point(series, r, m)
 
-
-class time_series_over_k_sigma_count:
+class time_series_over_k_sigma_ratio:
     
     def __init__(self, k):
         self.k = k
 
     def __init__(self, series):
-        c = 0
-        k_std = k * np.std(series)
-        mean = np.mean(series)
-
-        for v in series:
-            if not ((-k_std+mean) <= v <= (k_std+mean)):
-                c += 1
-        return c
-
-def time_series_ratio_beyond_r_sigma(series, r):
-    return tsfc.ratio_beyond_r_sigma(series, r)
+        return tsfc.ratio_beyond_r_sigma(series, self.k)
 
 def time_series_median_absolute_deviation(series):
     # 度量时序的变化
@@ -101,7 +90,7 @@ class time_series_mean_absolute_deviation_around_a_central_point:
 
     def __init__(self, m):
         if m not in ["mean", "median", "mode", "max", "all"]:
-            raise KeyError()
+            raise KeyError(m)
 
         if m == "mean":
             self.ms = [np.mean]
@@ -133,3 +122,8 @@ class time_series_median_absolute_deviation_around_a_central_point(
             value = np.median(np.abs(series-m(series)))
             values.append(value)
         return values
+
+def extract_time_series_dispersion_features(series):
+    features = []
+
+    return features

@@ -1,6 +1,9 @@
+import numpy as np
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
+
 # 给定特征在时序中的位置, 能够在一定程度上反映时序的周期或异常位置
+
 
 def time_series_first_location_of_maximum(series):
     return tsfc.first_location_of_maximum(series)
@@ -28,7 +31,8 @@ def time_series_derivative_last_location_of_minimum(series):
 
 def time_series_gradient_last_over_k_sigma_index(series, k):
     # 在使用 k sigma 进行 time series segmentation 时, 
-    # 可以使用这个函数
+    # 可以使用这个函数. 当 series 服从正太分布式时, k 取 3 足够了.
+    # 这个函数不会加入 location features 中.
 
     dy = np.gradient(series)
     mean = np.mean(dy)

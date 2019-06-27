@@ -8,23 +8,27 @@ def time_series_number_cwt_peaks(series, n):
 def time_series_number_peaks(series, n):
     return tsfc.number_peaks(series, n)
 
-def time_series_number_peaks_over_k_standard_deviations(series, k, d):
-    """
-    :param k: k times standard deviations
-    :param d: peak duration
-    """
-    k_std = k * np.std(series)
-    count = 0
+class time_series_number_peaks_over_k_standard_deviations:
 
-    n = 0
-    for v in series:
-        if v >= k_std:
-            n += 1
-            if n > d:
-                count += 1
-        else:
-            n = 0
-    return count
+    # peak 持续计数
+
+    def __init__(self, k, d):
+        self.k = k
+        self.d = d
+
+    def __call__(self, series):
+        k_std = k * np.std(series)
+        count = 0
+
+        n = 0
+        for v in series:
+            if v >= k_std:
+                n += 1
+                if n > d:
+                    count += 1
+            else:
+                n = 0
+        return count
 
 def extract_time_series_peak_features(series):
     features = []

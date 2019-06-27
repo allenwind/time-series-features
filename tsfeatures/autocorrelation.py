@@ -3,6 +3,9 @@ import scipy.stats as stats
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
 
+# 自相关和时序周期有关的特征
+
+
 class time_series_autocorrelation:
     
     # 时序的自相关系数

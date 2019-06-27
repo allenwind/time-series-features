@@ -23,6 +23,40 @@ def time_series_longest_strike_above_mean(series):
 def time_series_longest_strike_below_mean(series):
     return tsfc.longest_strike_below_mean(series)
 
+def time_series_has_duplicate_min(series):
+    return int(tsfc.has_duplicate_min(series))
+
+def time_series_has_duplicate_max(series):
+    return int(tsfc.has_duplicate_max(series))
+
+def time_series_has_duplicate(series):
+    return int(tsfc.has_duplicate(series))
+
+def time_series_variance_larger_than_standard_deviation(series):
+    return int(tsfc.variance_larger_than_standard_deviation(series))
+
+def time_series_large_standard_deviation(series, r):
+    return tsfc.large_standard_deviation(series, r)
+
+def time_series_sum_of_reoccurring_data_points(series):
+    return tsfc.sum_of_reoccurring_data_points(series)
+
+def time_series_sum_of_reoccurring_values(series):
+    return tsfc.sum_of_reoccurring_values(series)
+
+def time_series_ratio_value_number_to_time_series_length(series):
+    return tsfc.ratio_value_number_to_time_series_length(series)
+
+def time_series_percentage_of_reoccurring_values_to_all_values(series):
+    return tsfc.percentage_of_reoccurring_values_to_all_values(series)
+
+def time_series_percentage_of_reoccurring_datapoints_to_all_datapoints(series):
+    return tsfc.percentage_of_reoccurring_datapoints_to_all_datapoints(series)
+
+def time_series_max_langevin_fixed_point(series: pd.Series, r, m):
+    return tsfc.max_langevin_fixed_point(series, r, m)
+
+
 class time_series_over_k_sigma_count:
     
     def __init__(self, k):

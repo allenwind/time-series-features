@@ -62,3 +62,12 @@ def time_series_absolute_sum_of_changes(series):
     # time_series_willison_amplitude(threshold=0)(series)
 
     return time_series_willison_amplitude(threshold=0)(series)
+
+def time_series_derivative_number_crossing_mean(series):
+    d = np.diff(series)
+    return tsfc.number_crossing_m(d, np.mean(d))
+
+def extract_time_series_change_features(series):
+    features = []
+
+    return features

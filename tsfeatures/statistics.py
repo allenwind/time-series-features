@@ -36,9 +36,11 @@ def time_series_length(series):
     return len(series)
 
 def time_series_gmean(series):
+    # 几何均值
     return stats.gmean(series)
 
 def time_series_hmean(series):
+    # 调和均值
     # 预处理数据时不能以零为中心
     return stats.hmean(series)
 

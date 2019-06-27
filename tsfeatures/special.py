@@ -9,8 +9,6 @@ def time_series_abs_cumsum(series):
     # 时序改变的累加
     return np.cumsum(np.abs(series))
 
-
-
 def time_series_value_distribution(series):
     # 数值需要变换到 0, 1 区间上
     thresholds = [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99, 1.0, 1.0]
@@ -62,3 +60,9 @@ def time_series_cid_ce(series, normalize=True):
 
     return tsfc.cid_ce(series, normalize)
 
+def time_series_time_reversal_asymmetry_statistic(series, lag):
+    """
+    paper: 
+    Highly comparative feature-based time-series classification
+    """
+    return tsfc.time_reversal_asymmetry_statistic(series, lag)

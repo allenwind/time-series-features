@@ -25,3 +25,8 @@ def time_series_number_peaks_over_k_standard_deviations(series, k, d):
         else:
             n = 0
     return count
+
+def extract_time_series_peak_features(series):
+    features = []
+
+    return features

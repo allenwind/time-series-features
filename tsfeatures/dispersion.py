@@ -23,14 +23,14 @@ def time_series_longest_strike_above_mean(series):
 def time_series_longest_strike_below_mean(series):
     return tsfc.longest_strike_below_mean(series)
 
+def time_series_has_duplicate(series):
+    return int(tsfc.has_duplicate(series))
+
 def time_series_has_duplicate_min(series):
     return int(tsfc.has_duplicate_min(series))
 
 def time_series_has_duplicate_max(series):
     return int(tsfc.has_duplicate_max(series))
-
-def time_series_has_duplicate(series):
-    return int(tsfc.has_duplicate(series))
 
 def time_series_variance_larger_than_standard_deviation(series):
     return int(tsfc.variance_larger_than_standard_deviation(series))
@@ -114,7 +114,9 @@ class time_series_median_absolute_deviation_around_a_central_point(
     time_series_mean_absolute_deviation_around_a_central_point):
 
     # 继承自 time_series_mean_absolute_deviation_around_a_central_point
-    # 但是用 median 替代 mean
+    # 但是用 median 替代 mean, 使用 median 度量 location 变化的论文可以参考:
+    # https://www.sciencedirect.com/science/article/pii/S0167947302000786
+    # 磁盘异常检测中也使用这个特征
 
     def __call__(self, series):
         values = []
@@ -126,4 +128,16 @@ class time_series_median_absolute_deviation_around_a_central_point(
 def extract_time_series_dispersion_features(series):
     features = []
 
+    features.append(time_series_range(series))
+    features.append(time_series_count_above_mean(series))
+    features.append(time_series_count_above_mean(series))
+    features.append(time_series_longest_strike_above_mean(series))
+    features.append(time_series_longest_strike_below_mean(series))
+    features.append(time_series_has_duplicate(series))
+    features.append(time_series_has_duplicate_min(series))
+    features.append(time_series_has_duplicate_max(series))
+
+    features.extend(time_series_mean_absolute_deviation_around_a_central_point("all")(series))
+    features.extend(time_series_median_absolute_deviation_around_a_central_point("all")(series))
+    
     return features

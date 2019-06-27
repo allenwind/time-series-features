@@ -22,7 +22,7 @@ def time_series_binned_autocorrelation(series):
     values = []
     for value in max_bins:
         lag = size // value
-        c = time_series_autocorrelation(lag)(series)
+        c = tsfc.autocorrelation(series, lag)
         if c is np.nan:
             c = 0
         values.append(r)

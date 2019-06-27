@@ -1,24 +1,29 @@
-from .statistics import time_series_statistical_features
-from .classification import time_series_classification_features
-from .fitting import time_series_fitting_features
+import numpy as np
 
-__all__ = []
+from .statistics import extract_time_series_statistics_features
+from .autocorrelation import extract_time_series_autocorrelation_features
+from .fitting import extract_time_series_fitting_features
+from .change import extract_time_series_change_features
+from .dispersion import extract_time_series_dispersion_features
+from .peaks import extract_time_series_peak_features
+from .location import extract_time_series_location_features
 
-def time_series_features(series):
-    features = []
-    features.extend(time_series_statistical_features(series))
-    features.extend(time_series_classification_features(series))
-    features.extend(time_series_fitting_features(series))
-    return features
-
-
-def compute_features_size(window_size=100):
-    series = np.random.uniform(0.1, 10, window_size)
-    return len(extract_time_series_features(series))
+__all__ = ["extract_time_series_statistics_features", "extract_time_series_autocorrelation_features", "extract_time_series_fitting_features",
+           "extract_time_series_change_features", "extract_time_series_dispersion_features", "extract_time_series_peak_features", 
+           "extract_time_series_location_features", "extract_time_series_all_features", "compute_features_size"]
 
 def extract_time_series_all_features(series):
     features = []
 
-    return features
+    features.extend(extract_time_series_statistics_features(series))
+    features.extend(extract_time_series_autocorrelation_features(series))
+    features.extend(extract_time_series_fitting_features(series))
+    features.extend(extract_time_series_change_features(series))
+    features.extend(extract_time_series_dispersion_features(series))
+    features.extend(extract_time_series_peak_features(series))
+    features.extend(extract_time_series_location_features(series))
+    return np.array(features)
 
-assert compute_features_size(30) == compute_features_size(50)
+def compute_features_size(window_size=100):
+    series = np.random.uniform(0.1, 10, window_size)
+    return len(extract_time_series_features(series))

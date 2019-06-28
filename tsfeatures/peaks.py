@@ -33,4 +33,6 @@ class time_series_number_peaks_over_k_standard_deviations:
 def extract_time_series_peak_features(series):
     features = []
 
+    features.append(time_series_number_cwt_peaks(series,2))
+    features.append(time_series_number_cwt_peaks(series, 2))
     return features

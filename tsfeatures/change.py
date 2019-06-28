@@ -2,9 +2,7 @@ import numpy as np
 import scipy.stats as stats
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
-
 # 度量时序改变的特征
-
 
 def time_series_mean_change(series):
     # 度量时序的变化
@@ -28,6 +26,9 @@ def time_series_mean_second_derivative_central(series):
     return tsfc.mean_second_derivative_central(series)
 
 class time_series_zero_crossing:
+
+    # 和特征 time_series_derivative_number_crossing_mean
+    # 类似, 但前者默认 threshold = 0
     
     def __init__(self, threshold=0):
         self.threshold = threshold

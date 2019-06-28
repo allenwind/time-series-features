@@ -12,6 +12,7 @@ def time_series_range(series):
     return np.max(series) - np.min(series)
 
 def time_series_center(series):
+    # 极值中心
     return (np.max(series) + np.min(series)) / 2
 
 def time_series_count_above_mean(x):

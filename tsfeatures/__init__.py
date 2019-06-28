@@ -1,14 +1,14 @@
 import numpy as np
 
 from .statistics import extract_time_series_statistics_features
-from .autocorrelation import extract_time_series_autocorrelation_features
+from .autocorrelation import extract_time_series_autocorrelation_based_features
 from .fitting import extract_time_series_fitting_features
 from .change import extract_time_series_change_features
 from .dispersion import extract_time_series_dispersion_features
 from .peaks import extract_time_series_peak_features
 from .location import extract_time_series_location_features
 
-__all__ = ["extract_time_series_statistics_features", "extract_time_series_autocorrelation_features", "extract_time_series_fitting_features",
+__all__ = ["extract_time_series_statistics_features", "extract_time_series_autocorrelation_based_features", "extract_time_series_fitting_features",
            "extract_time_series_change_features", "extract_time_series_dispersion_features", "extract_time_series_peak_features", 
            "extract_time_series_location_features", "extract_time_series_all_features", "compute_features_size"]
 
@@ -16,7 +16,7 @@ def extract_time_series_all_features(series):
     features = []
 
     features.extend(extract_time_series_statistics_features(series))
-    features.extend(extract_time_series_autocorrelation_features(series))
+    features.extend(extract_time_series_autocorrelation_based_features(series))
     features.extend(extract_time_series_fitting_features(series))
     features.extend(extract_time_series_change_features(series))
     features.extend(extract_time_series_dispersion_features(series))

@@ -11,6 +11,9 @@ import tsfresh.feature_extraction.feature_calculators as tsfc
 def time_series_range(series):
     return np.max(series) - np.min(series)
 
+def time_series_center(series):
+    return (np.max(series) + np.min(series)) / 2
+
 def time_series_count_above_mean(x):
     return tsfc.count_above_mean(x)
 
@@ -80,7 +83,7 @@ class time_series_mean_absolute_deviation_around_a_central_point:
     # 以m(x)为中心度量时序的变化(分散)情况, 包括 mean(均值) median(中位数) mode(众数)
     # 这类特征可以约束 forecast 中的波动. 在 changepoints 检测中也有运用.
     # 这里的 central point 包括:
-    # mean median mode max
+    # mean median mode time_series_center
 
     # 相关文档可参考
     # wiki:
@@ -101,7 +104,7 @@ class time_series_mean_absolute_deviation_around_a_central_point:
         elif m == "max":
             self.ms = [np.max]
         else:
-            self.ms = [np.mean, np.median, stats.mode]
+            self.ms = [np.mean, np.median, stats.mode, time_series_center]
 
     def __call__(self, series):
         values = []
@@ -129,6 +132,7 @@ def extract_time_series_dispersion_features(series):
     features = []
 
     features.append(time_series_range(series))
+    features.append(time_series_center(series))
     features.append(time_series_count_above_mean(series))
     features.append(time_series_count_above_mean(series))
     features.append(time_series_longest_strike_above_mean(series))
@@ -137,6 +141,7 @@ def extract_time_series_dispersion_features(series):
     features.append(time_series_has_duplicate_min(series))
     features.append(time_series_has_duplicate_max(series))
 
+    # features.append(time_series_median_absolute_deviation(series)) duplicate
     features.extend(time_series_mean_absolute_deviation_around_a_central_point("all")(series))
     features.extend(time_series_median_absolute_deviation_around_a_central_point("all")(series))
     

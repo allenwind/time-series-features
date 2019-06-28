@@ -48,7 +48,7 @@ class time_series_agg_autocorrelation:
 
 class time_series_partial_autocorrelation:
 
-    # 时序的偏差自相关系数
+    # 时序的偏自相关系数
     # wiki
     # https://en.wikipedia.org/wiki/Partial_autocorrelation_function
 
@@ -58,7 +58,24 @@ class time_series_partial_autocorrelation:
     def __call__(self, series):
         return tsfc.partial_autocorrelation(series, [{"lag": self.lag}])
 
+def time_series_binned_partial_autocorrelation(series):
+    max_bins = [2, 3, 4, 5, 6, 7]
+    size = len(series) - 3
+    values = []
+    for value in max_bins:
+        lag = size // value
+        c = tsfc.partial_autocorrelation(series, [{"lag": self.lag}])
+        if c is np.nan:
+            c = 0
+        values.append(r)
+    return values
 
 def time_series_periodic_features(series):
-    # TODO
-    return []
+    return  []
+
+def extract_time_series_autocorrelation_based_features(series):
+    features = []
+
+    features.extend(time_series_binned_autocorrelation(series))
+    features.extend(time_series_binned_partial_autocorrelation(series))
+    return features

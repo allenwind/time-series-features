@@ -12,7 +12,6 @@ def time_series_cid_distance(series1, series2):
     # a distance measurement of two time series.
     # paper:
     # http://www.cs.ucr.edu/~eamonn/Complexity-Invariant%20Distance%20Measure.pdf
-    
 
     ce1 = time_series_cid_ce(series1)
     ce2 = time_series_cid_ce(series2)
@@ -33,5 +32,5 @@ def check_time_series_gaussian_noise(series):
     # 高斯白噪声检验
     pass
 
-def find_time_series_max_perid(series):
+def find_time_series_max_periodic(series):
     pass

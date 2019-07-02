@@ -63,22 +63,18 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 
 更多关于以上特征的说明参考(Latex 可以无法渲染):
 
-![time-series-features](./md/time-series-features.md)
+[时间序列特征说明](./md/time-series-features.md)
 
-![time-series-smoothing](./md/time-series-smoothing.md)
+[时间序列平滑处理说明](./md/time-series-smoothing.md)
 
-## 丑小鸭定理
+## 特征重要性
 
 以上说了如此多特征, 哪些特征更重要?哪些不重要?
 
-关于模型的先天"优越性"我们想到"没有免费午餐定理", 而关于特征的先天"优越性"则有"丑小鸭定理".这两个定理表明:
-
-没有先天优越的模型, 也没有先天优越的特征.
+关于模型的先天"优越性"我们想到"没有免费午餐定理", 类似地, 特征也没有先天"优越性", 什么特征好或不好, 视使用场景而定.
 
 因此, 我们需要根据场景来选择我们需要的特征, 更直接的做法是在特征提取后做特征过滤.
 
 ## 相关 paper
-
-1. ![Opprentice: Towards Practical and Automatic Anomaly Detection Through Machine Learning](https://conferences2.sigcomm.org/imc/2015/papers/p211.pdf)
 
 更多相关的说明请看项目源码中的注释.

@@ -61,11 +61,10 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 
 以上的分类并不表明特征是互相独立的.
 
-更多关于以上特征的说明参考(Latex 可以无法渲染):
+更多关于以上特征的说明参考(Latex 可能无法渲染):
 
-[时间序列特征说明](./md/time-series-features.md)
-
-[时间序列平滑处理说明](./md/time-series-smoothing.md)
+1. [时间序列特征说明](./md/time-series-features.md)
+2. [时间序列平滑处理说明](./md/time-series-smoothing.md)
 
 ## 特征重要性
 

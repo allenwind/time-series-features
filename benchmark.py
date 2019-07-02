@@ -1,4 +1,4 @@
-from . import compute_features_size
+from tsfeatures import compute_features_size
 
 def _benchmark_test():
     import time

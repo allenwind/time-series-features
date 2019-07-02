@@ -2,9 +2,7 @@ import numpy as np
 import scipy.stats as stats
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
-
 # 自相关和时序周期有关的特征
-
 
 class time_series_autocorrelation:
     
@@ -25,7 +23,7 @@ def time_series_binned_autocorrelation(series):
         c = tsfc.autocorrelation(series, lag)
         if c is np.nan:
             c = 0
-        values.append(r)
+        values.append(c)
     return values
 
 class time_series_agg_autocorrelation:
@@ -64,10 +62,10 @@ def time_series_binned_partial_autocorrelation(series):
     values = []
     for value in max_bins:
         lag = size // value
-        c = tsfc.partial_autocorrelation(series, [{"lag": self.lag}])
+        c = tsfc.partial_autocorrelation(series, [{"lag": lag}])[0][1]
         if c is np.nan:
             c = 0
-        values.append(r)
+        values.append(c)
     return values
 
 def time_series_periodic_features(series):

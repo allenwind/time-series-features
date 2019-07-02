@@ -19,7 +19,7 @@ def time_series_median(series):
 
 def time_series_mode(series):
     # 众数
-    return stats.mode(series)
+    return stats.mode(series).mode[0]
 
 def time_series_standard_deviation(series):
     return np.std(series)
@@ -74,8 +74,10 @@ def extract_time_series_statistics_features(series):
     features.append(time_series_kurtosis(series))
     features.append(time_series_skewness(series))
     features.append(time_series_length(series))
-    features.append(time_series_gmean(series))
-    features.append(time_series_hmean(series))
+
+    # 几何均值和调和均值不直接引入
+    # features.append(time_series_gmean(series))
+    # features.append(time_series_hmean(series))
     features.append(time_series_coefficient_of_variation(series))
     features.extend(time_series_value_distribution(series))
     return features

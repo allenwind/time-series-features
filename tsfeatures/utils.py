@@ -2,6 +2,7 @@ import numpy as np
 
 from .special import time_series_cid_ce
 
+# TODO
 # 冗余性检查
 # 相关性检查
 # 可视化
@@ -27,6 +28,13 @@ def time_series_dtw_distance(series1, series2):
     # https://pdfs.semanticscholar.org/05a2/0cde15e172fc82f32774dd0cf4fe5827cad2.pdf
 
     pass
+
+def check_time_series(series):
+    if not isinstance(series, np.array):
+        raise ValueError("only support numpy array")
+    
+    if len(r.shape) != 1:
+        raise ValueError("only support one dimension array now")
 
 def check_time_series_gaussian_noise(series):
     # 高斯白噪声检验

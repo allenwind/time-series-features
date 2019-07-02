@@ -10,53 +10,19 @@ def time_series_abs_cumsum(series):
     return np.cumsum(np.abs(series))
 
 def time_series_c3(series, lag):
-    """
-    paper: https://www.macalester.edu/~kaplan/knoxville/PRE05443.pdf
+    # a measurement of non linearity
+    # paper: https://www.macalester.edu/~kaplan/knoxville/PRE05443.pdf
 
-    a measurement of non linearity
-
-    :param series: time series
-    :type series: pd.Series
-
-    :param lag: lag
-    :type lag: int
-
-    :return: c3 features
-    :return type: float
-
-    :example:
-    >>> time_series_c3(pd.Series([1, 2, 1]), lag=1)
-    2.0
-    """
     return tsfc.c3(series, lag)
 
 def time_series_cid_ce(series, normalize=True):
-    """
-    paper: http://www.cs.ucr.edu/~eamonn/Complexity-Invariant%20Distance%20Measure.pdf
-
-    a measurement of CID distance
-
-    :param series: time series
-    :type series: pd.Series
-
-    :param normalize: normalize input time series
-    :param type: boolean
-
-    :return: cid distance
-    :return type: float
-    
-    :example:
-    >>> cid_ce(pd.Series([1, 2, 1]), True)
-    2.9999999999999996
-    >>> cid_ce(pd.Series([1, 2, 1]), False)
-    1.4142135623730951
-    """
+    # CID distance
+    # paper: http://www.cs.ucr.edu/~eamonn/Complexity-Invariant%20Distance%20Measure.pdf
 
     return tsfc.cid_ce(series, normalize)
 
 def time_series_time_reversal_asymmetry_statistic(series, lag):
-    """
-    paper: 
-    Highly comparative feature-based time-series classification
-    """
+    # paper: 
+    # Highly comparative feature-based time-series classification
+    
     return tsfc.time_reversal_asymmetry_statistic(series, lag)

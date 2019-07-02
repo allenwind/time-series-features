@@ -1,5 +1,4 @@
 import numpy as np
-import  
 
 # 光滑, 去噪与趋势
 
@@ -61,5 +60,5 @@ def extract_time_series_fitting_features(series):
     # 目前只使用 EMA
     features = []
 
-    features.extend(time_series_exponential_moving_average(0.99)(series))
+    # features.extend(time_series_exponential_moving_average(0.99)(series))
     return features

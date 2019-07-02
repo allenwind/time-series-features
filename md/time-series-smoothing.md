@@ -1,5 +1,7 @@
 # 时间序列的光滑处理
 
+TODO 补充更多解释
+
 simple moving average
 $$
 \begin{aligned} \overline{p}_{\mathrm{SM}} &=\frac{p_{M}+p_{M-1}+\cdots+p_{M-(n-1)}}{n} \\ &=\frac{1}{n} \sum_{i=0}^{n-1} p_{M-i} \end{aligned}

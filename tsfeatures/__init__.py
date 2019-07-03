@@ -13,8 +13,10 @@ from .index import (extract_time_series_forecast_features,
                     extract_time_series_classification_features)
 
 __all__ = ["extract_time_series_statistics_features", "extract_time_series_autocorrelation_based_features", "extract_time_series_fitting_features",
-           "extract_time_series_change_features", "extract_time_series_dispersion_features", "extract_time_series_peak_features", 
-           "extract_time_series_location_features", "extract_time_series_all_features", "compute_features_size"]
+           "extract_time_series_change_features", "extract_time_series_dispersion_features", "extract_time_series_peak_features", "compute_features_size",
+           "extract_time_series_location_features", "extract_time_series_all_features", "extract_time_series_forecast_features", 
+           "extract_time_series_regression_features", "extract_time_series_anomaly_features", "extract_time_series_classification_features"]
+
 
 def extract_time_series_all_features(series):
     features = []

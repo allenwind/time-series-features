@@ -55,9 +55,10 @@ def time_series_coefficient_of_variation(series):
     return np.mean(series) / s
 
 def time_series_value_distribution(series):
+    # 时间序列的经验分布
     # 数值需要变换到 0, 1 区间上
     # 自定义区间的数值统计分布
-    thresholds = [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99, 1.0, 1.0]
+    thresholds = [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99, 1.0]
     return list(np.histogram(series, bins=thresholds)[0] / float(len(series)))
 
 def extract_time_series_statistics_features(series):

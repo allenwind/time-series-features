@@ -26,11 +26,18 @@ class time_series_weighted_moving_average:
 
 class time_series_exponential_moving_average:
 
-    def __init__(self, alpha):
+    def __init__(self, alpha=0.95):
         self.alpha = alpha
 
     def __call__(self, series):
-        pass
+        values = []
+        x0 = series[0]
+        values.append(x0)
+        for v in series[1:]:
+            xt = self.alpha*v + (1-self.alpha)*x0
+            x0 = xt
+            values.append(xt)
+        return values
 
 class time_series_double_exponential_moving_average:
 
@@ -55,13 +62,6 @@ def time_series_trending_pattern(series, eps=EPS):
         return 0
     else:
         return np.sign(coef)
-
-def extract_time_series_fitting_features(series):
-    # 目前只使用 EMA
-    features = []
-
-    # features.extend(time_series_exponential_moving_average(0.99)(series))
-    return features
 
 def time_series_moving_average(series):
     values = []
@@ -105,43 +105,9 @@ def time_series_double_exponential_weighted_moving_average(series):
             temp_list.append(s[-1] - x[-1])
     return temp_list
 
-def time_series_corr2(X):
-    ''' computes correlations between all variable pairs in a segmented time series
+def extract_time_series_fitting_features(series):
+    # 目前只使用 EMA
+    features = []
 
-    .. note:: this feature is expensive to compute with the current implementation, and cannot be
-    used with univariate time series
-    '''
-    X = np.atleast_3d(X)
-    N = X.shape[0]
-    D = X.shape[2]
-
-    if D == 1:
-        return np.zeros(N, dtype=np.float)
-
-    trii = np.triu_indices(D, k=1)
-    DD = len(trii[0])
-    r = np.zeros((N, DD))
-    for i in np.arange(N):
-        rmat = np.corrcoef(X[i])  # get the ith window from each signal, result will be DxD
-        r[i] = rmat[trii]
-    return r
-
-class time_series_hist:
-    
-    def __init__(self, bins=4):
-        if bins < 2:
-            raise ValueError("hist requires bins >= 2")
-        self.bins = bins
-
-    def __call__(self, X):
-        X = np.atleast_3d(X)
-        N = X.shape[0]
-        D = X.shape[2]
-        histogram = np.zeros((N, D * self.bins))
-        for i in np.arange(N):
-            for j in np.arange(D):
-                # for each variable, advance by bins
-                histogram[i, (j * self.bins):((j + 1) * self.bins)] = \
-                    np.histogram(X[i, :, j], bins=self.bins, density=True)[0]
-
-        return histogram
+    features.extend(time_series_exponential_moving_average(0.95)(series))
+    return features

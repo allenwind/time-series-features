@@ -2,12 +2,13 @@ import numpy as np
 
 from .special import time_series_cid_ce
 
-# TODO
+# TODO:
 # 冗余性检查
 # 相关性检查
 # 可视化
 # 重要性比较
 # 度量时序间的距离
+# dtw 实现
 
 def time_series_cid_distance(series1, series2):
     # a distance measurement of two time series.

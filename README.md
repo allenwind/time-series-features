@@ -66,6 +66,15 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 1. [时间序列特征说明](./md/time-series-features.md)
 2. [时间序列平滑处理说明](./md/time-series-smoothing.md)
 
+## 特征索引
+
+根据时间序列的使用场景, 我们对特征进行索引, 目前包括的使用场景:
+
+1. 预测(forecasting)
+2. regression
+3. anomaly detection (changepoints, outliers)
+4. classification
+
 ## 特征重要性
 
 以上说了如此多特征, 哪些特征更重要?哪些不重要?

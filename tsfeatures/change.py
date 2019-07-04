@@ -8,15 +8,25 @@ def time_series_mean_change(series):
     # 度量时序的变化
     return np.mean(np.diff(series))
 
-def time_series_absolute_mean_of_changes(series):
+def time_series_absolute_sum_of_changes(series):
     # 度量时序的变化
+    # alias time_series_waveform_length
+    # np.sum(np.abs(np.diff(series))) equal to 
+    # time_series_willison_amplitude(threshold=0)(series)
+
+    return np.sum(np.abs(np.diff(series)))
+
+def time_series_absolute_mean_of_changes(series):
+    # 度量时序的变化的均值
     return np.mean(np.abs(np.diff(series)))
 
 def time_series_maximum_of_derivative(series):
-    return tsfc.maximum(np.diff(series))
+    # 计算最大变化幅度
+    return np.max(np.abs(np.diff(series)))
 
 def time_series_minimum_of_derivative(series):
-    return tsfc.minimum(np.diff(series))
+    # 计算最小幅度变化
+    return np.min(np.abs(np.diff(series)))
 
 def time_series_mean_second_derivative_central(series):
     # 度量时序的变化
@@ -55,14 +65,6 @@ class time_series_willison_amplitude:
 
     def __call__(self, series):
         return np.sum(np.abs(np.diff(series)) >= self.threshold)
-
-def time_series_absolute_sum_of_changes(series):
-    # 度量时序的变化
-    # alias time_series_waveform_length
-    # np.sum(np.abs(np.diff(series))) equal to 
-    # time_series_willison_amplitude(threshold=0)(series)
-
-    return time_series_willison_amplitude(threshold=0)(series)
 
 def time_series_derivative_number_crossing_mean(series):
     d = np.diff(series)

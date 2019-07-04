@@ -43,7 +43,7 @@ def time_series_gmean(series):
 def time_series_hmean(series):
     # 调和均值
     # 预处理数据时不能以零为中心
-    return stats.hmean(series+1)
+    return stats.hmean(series)
 
 def time_series_coefficient_of_variation(series):
     # scipy.stats.variation

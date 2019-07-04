@@ -2,14 +2,15 @@ import numpy as np
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
 # 一些高级特征, 来自某些 paper 或专用与某个场景的特征
+# 实现中已经注明 papers.
 
-def time_series_cumsum(series):
+def time_series_sum(series):
     # 时序的累加
-    return np.cumsum(series)
+    return np.sum(series)
 
-def time_series_abs_cumsum(series):
+def time_series_abs_sum(series):
     # 时序改变的累加
-    return np.cumsum(np.abs(series))
+    return np.sum(np.abs(series))
 
 def time_series_c3(series, lag):
     # a measurement of non linearity

@@ -1,3 +1,5 @@
+import numpy as np
+
 from .statistics import extract_time_series_statistics_features
 from .autocorrelation import extract_time_series_autocorrelation_based_features
 from .fitting import extract_time_series_fitting_features
@@ -31,7 +33,10 @@ def extract_time_series_anomaly_features(series):
     return np.array(features)
 
 def extract_time_series_classification_features(series):
-    pass
+    features = []
+    # TODO@dtw
+    features.extend(extract_time_series_statistics_features(series))
+    return np.array(features)
 
 def extract_time_series_all_features(series):
     features = []

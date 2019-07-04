@@ -1,3 +1,5 @@
+import numpy as np
+import tsfresh.feature_extraction.feature_calculators as tsfc
 
 # 一些高级特征, 来自某些 paper 或专用与某个场景的特征
 

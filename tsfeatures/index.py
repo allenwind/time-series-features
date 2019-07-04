@@ -12,26 +12,34 @@ from .location import extract_time_series_location_features
 
 def extract_time_series_forecast_features(series):
     features = []
-
     features.extend(extract_time_series_fitting_features(series))
     features.extend(extract_time_series_autocorrelation_based_features(series))
     features.extend(extract_time_series_statistics_features(series))
-    return features
+    return np.array(features)
 
 def extract_time_series_regression_features(series):
     features = []
-
     features.extend(extract_time_series_fitting_features(series))
-    return features
+    return np.array(features)
 
 def extract_time_series_anomaly_features(series):
     features = []
-
     features.extend(extract_time_series_statistics_features(series))
     features.extend(extract_time_series_change_features(series))
     features.extend(extract_time_series_classification_features(series))
     features.extend(extract_time_series_peak_features(series))
-    return features
+    return np.array(features)
 
 def extract_time_series_classification_features(series):
     pass
+
+def extract_time_series_all_features(series):
+    features = []
+    features.extend(extract_time_series_statistics_features(series))
+    features.extend(extract_time_series_autocorrelation_based_features(series))
+    features.extend(extract_time_series_fitting_features(series))
+    features.extend(extract_time_series_change_features(series))
+    features.extend(extract_time_series_dispersion_features(series))
+    features.extend(extract_time_series_peak_features(series))
+    features.extend(extract_time_series_location_features(series))
+    return np.array(features)

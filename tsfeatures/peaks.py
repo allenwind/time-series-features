@@ -1,3 +1,4 @@
+import numpy as np
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
 # 和 peak 有关的特征, 通常用在时间序列分类和异常检测中

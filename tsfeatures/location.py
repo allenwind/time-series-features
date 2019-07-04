@@ -1,9 +1,7 @@
 import numpy as np
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
-
 # 给定特征在时序中的位置, 能够在一定程度上反映时序的周期或异常位置
-
 
 def time_series_first_location_of_maximum(series):
     return tsfc.first_location_of_maximum(series)

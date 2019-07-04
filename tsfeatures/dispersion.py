@@ -2,11 +2,9 @@ import numpy as np
 import scipy.stats as stats
 import tsfresh.feature_extraction.feature_calculators as tsfc
 
-
 # 度量时序的分散情况
 # 可以参考如下资料
 # https://en.wikipedia.org/wiki/Statistical_dispersion
-
 
 def time_series_range(series):
     return np.max(series) - np.min(series)

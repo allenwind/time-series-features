@@ -16,6 +16,8 @@ $$
 $$
 Mode
 
+
+
 Geometric mean
 $$
 \left(\prod_{i=1}^{n} x_{i}\right)^{\frac{1}{n}}=\sqrt[n]{x_{1} x_{2} \cdots x_{n}}

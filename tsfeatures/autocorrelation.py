@@ -4,6 +4,17 @@ import tsfresh.feature_extraction.feature_calculators as tsfc
 
 # 自相关和时序周期有关的特征
 
+def time_series_all_autocorrelation(series):
+    # wiki
+    # https://en.wikipedia.org/wiki/Autocorrelation#Efficient_computation
+
+    N = len(series)
+    auto = np.zeros(N)
+    for k in range(N):
+        for n in range(N - k):
+            auto[k] += series[n + k] * series[n]
+    return auto.tolist()
+
 class time_series_autocorrelation:
     
     # 时序的自相关系数
@@ -74,6 +85,6 @@ def time_series_periodic_features(series):
 def extract_time_series_autocorrelation_based_features(series):
     features = []
 
-    features.extend(time_series_binned_autocorrelation(series))
+    features.extend(time_series_all_autocorrelation(series))
     features.extend(time_series_binned_partial_autocorrelation(series))
     return features

@@ -114,14 +114,31 @@ $$
 
 
 
-
 ## 度量自相关和周期的特征
+
+自相关和卷积在数学定义上很相似，需要区分。 自相关（f1等于f2）如下：
+$$
+R(t)=\int_{-\infty}^{+\infty} f_{1}(\tau) f_{2}(t+\tau) d \tau
+$$
+而卷积定义如下：
+$$
+\int_{-\infty}^{+\infty} f_{1}(\tau) f_{2}(t-\tau) d \tau
+$$
+
+
+
 
 autocorrelation
 $$
 R(l)=\frac{1}{(n-l) \sigma^{2}} \sum_{t=1}^{n-l}\left(X_{t}-\mu\right)\left(X_{t+l}-\mu\right)
 $$
 l is lag
+
+在编程实现上， 我们通常使用如下高效的计算方式：
+$$
+R_{x x}(j)=\sum_{n} x_{n} \overline{x}_{n-j}
+$$
+
 
 partial autocorrelation
 

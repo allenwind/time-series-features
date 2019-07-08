@@ -45,4 +45,4 @@ def check_time_series_gaussian_noise(series):
 def find_time_series_max_periodic(series):
     auto = time_series_all_autocorrelation(series)
     auto = np.array(auto[1:])
-    return np.argmax(auto)
+    return int(np.argmax(auto))

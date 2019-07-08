@@ -1,7 +1,7 @@
 import numpy as np
 
 from .statistics import extract_time_series_statistics_features
-from .autocorrelation import extract_time_series_autocorrelation_based_features
+from .autocorrelation import (extract_time_series_autocorrelation_based_features, find_time_series_max_periodic)
 from .fitting import extract_time_series_fitting_features
 from .change import extract_time_series_change_features
 from .dispersion import extract_time_series_dispersion_features

@@ -1,6 +1,7 @@
 import numpy as np
 
 from .special import time_series_cid_ce
+from .autocorrelation import time_series_all_autocorrelation
 
 # TODO:
 # 冗余性检查
@@ -42,4 +43,6 @@ def check_time_series_gaussian_noise(series):
     pass
 
 def find_time_series_max_periodic(series):
-    pass
+    auto = time_series_all_autocorrelation(series)
+    auto = np.array(auto[1:])
+    return np.argmax(auto)

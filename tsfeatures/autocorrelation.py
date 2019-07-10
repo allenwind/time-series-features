@@ -5,6 +5,7 @@ import tsfresh.feature_extraction.feature_calculators as tsfc
 # 自相关和时序周期有关的特征
 
 def time_series_all_autocorrelation(series):
+    # 计算所有 lag 的自相关值, 计算方法可参考
     # wiki
     # https://en.wikipedia.org/wiki/Autocorrelation#Efficient_computation
 

@@ -43,6 +43,8 @@ def check_time_series_gaussian_noise(series):
     pass
 
 def find_time_series_max_periodic(series):
+    # 如何时序存在周期, 那么自相关函数会呈现明显的规律
+    
     auto = time_series_all_autocorrelation(series)
     auto = np.array(auto[1:])
     return int(np.argmax(auto)) + 1

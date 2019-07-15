@@ -5,6 +5,7 @@ import tsfresh.feature_extraction.feature_calculators as tsfc
 # 信息论或信号处理(小波)中的有关度量
 
 def time_series_approximate_entropy(series, m, r):
+    # 度量时间序列的波动的不可预测性
     return tsfc.approximate_entropy(series, m, r)
 
 def time_series_binned_entropy(series, max_bins):

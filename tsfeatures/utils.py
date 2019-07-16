@@ -42,9 +42,14 @@ def check_time_series_gaussian_noise(series):
     # 高斯白噪声检验
     pass
 
-def find_time_series_max_periodic(series):
+def find_time_series_max_periodic(series, offset=1):
     # 如何时序存在周期, 那么自相关函数会呈现明显的规律
-    
+    # offset 表示忽略自相关函数中的前 n 个自相关系数
+    # 通常来说，较长的序列且复杂的序列会在 lag 较小时
+    # 表示较大的自相关性.
+    if not offset:
+        offset = max(1, len(series)//100)
+
     auto = time_series_all_autocorrelation(series)
-    auto = np.array(auto[1:])
+    auto = np.array(auto[offset:])
     return int(np.argmax(auto)) + 1

@@ -1,6 +1,6 @@
 # time series features
 
-## 关于时间序列我们能做什么?
+## 时间序列
 
 从监控中获取的时间序列数据我们能做的事情如下:
 
@@ -55,6 +55,8 @@
 
 ![find-the-model](./asset/find-the-model.png)
 
+详细见 time-series-mission 项目.
+
 ## 使用
 
 直接作为某项目的 sub-repo
@@ -64,6 +66,9 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 在机器学习任务中, 特征的使用流程如下:
 
 ![features-usage-flow](./asset/features-usage-flow.png)
+
+或者， 根据业务场景，定义需求的特征：
+
 
 ## 特征类型
 

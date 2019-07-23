@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.spatial as spatial
 
 from .special import time_series_cid_ce
 from .autocorrelation import time_series_all_autocorrelation
@@ -53,3 +54,26 @@ def find_time_series_max_periodic(series, offset=1):
     auto = time_series_all_autocorrelation(series)
     auto = np.array(auto[offset:])
     return int(np.argmax(auto)) + 1
+
+def mahalanobis_distance(obs, X, center="zero"):
+    # mahalanobis distance of obs to X
+    # wiki:
+    # https://en.wikipedia.org/wiki/Mahalanobis_distance
+
+    # 使用这个方法的参考 paper:
+    # Online Anomaly Detection for Hard Disk Drives Based on Mahalanobis Distance
+
+    # 计算协方差矩阵
+    cov = np.cov(X.T)
+
+    # 计算数据集的中心
+    if center == "zero":
+        center = np.zeros(cov.shape[1])
+    else:
+        center = np.mean(X, axis=0)
+
+    # 矩阵的伪逆
+    icov = np.linalg.pinv(cov)
+    # 计算 obs 到 center 的 Mahalanobis distance
+    d = spatial.distance.mahalanobis(obs, center, icov)
+    return d

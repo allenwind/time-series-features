@@ -1,5 +1,6 @@
 import numpy as np
 
+from . import (change, autocorrelation, dispersion, fitting, index, info, location, peaks, special, statistics, utils)
 from .utils import find_time_series_max_periodic
 from .statistics import extract_time_series_statistics_features
 from .autocorrelation import extract_time_series_autocorrelation_based_features
@@ -20,6 +21,4 @@ __all__ = ["extract_time_series_statistics_features", "extract_time_series_autoc
            "extract_time_series_regression_features", "extract_time_series_anomaly_features", "extract_time_series_classification_features", 
            "find_time_series_max_periodic"]
 
-def compute_features_size(window_size=100):
-    series = np.random.uniform(0.1, 10, window_size)
-    return len(extract_time_series_all_features(series))
+__all__ += ["change", "autocorrelation", "dispersion", "fitting", "index", "info", "location", "peaks", "special", "statistics", "utils"]

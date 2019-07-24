@@ -44,7 +44,7 @@ def time_series_gradient_last_over_k_sigma_index(series, k):
     else:
         return -1
 
-    return (len(dy) - idx - 1) / time_series_length(series)
+    return (len(dy) - idx - 1) / len(series)
 
 def time_series_gradient_first_over_k_sigma_index(series, k):
     dy = np.gradient(series)
@@ -56,7 +56,7 @@ def time_series_gradient_first_over_k_sigma_index(series, k):
     else:
         return -1
 
-    return idx / time_series_length(series)
+    return idx / len(series)
 
 def extract_time_series_location_features(series):
     features = []

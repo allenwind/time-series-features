@@ -16,6 +16,7 @@ class time_series_number_peaks_over_k_standard_deviations:
 
     # peak 持续计数
     # 持续 d 个时间步取值高于 k 个标准差的计数
+    # 磁盘的 I/O Latency 统计需要这个特征
 
     def __init__(self, k, d):
         self.k = k

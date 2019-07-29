@@ -74,6 +74,7 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 
 本项目包括的特征如下:
 1. 基本的统计特征 (均值方差等等)
+2. 分位数特征
 2. 自相关与周期特征
 3. 度量时序变化情况的特征
 4. 度量时序分散情况的特征
@@ -107,6 +108,38 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 关于模型的先天"优越性"我们想到"没有免费午餐定理", 类似地, 特征也没有先天"优越性", 什么特征好或不好, 视使用场景而定.
 
 因此, 我们需要根据场景来选择我们需要的特征, 更直接的做法是在特征提取后做特征过滤.
+
+## 实现模板
+
+不带参数的特征：
+
+```python
+def time_series_xx(series):
+    # 无参数的特征提取器实现模板
+    # 返回类型为 float 或 list
+    # 使用方法:
+    # feature = time_series_xx(series)
+    pass
+```
+
+带参数的特征：
+
+```python
+class time_series_xx:
+
+    # 有参数的特征提取器实现模板
+    # 可以使用类继承方法实现
+    # 返回类型为 float、int 或 list
+    # 使用方法
+    # feature = time_series_xx(params)(series)
+    
+    def __init__(self, params):
+        self.params = params
+
+    def __call__(self, series):
+        pass
+
+```
 
 ## 相关 paper
 

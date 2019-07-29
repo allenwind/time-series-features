@@ -59,7 +59,7 @@ def time_series_value_distribution(series):
     # 数值需要变换到 0, 1 区间上
     # 自定义区间的数值统计分布
     thresholds = [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99, 1.0]
-    return list(np.histogram(series, bins=thresholds)[0] / float(len(series)))
+    return list(np.histogram(series, bins=thresholds)[0] / series.size)
 
 def extract_time_series_statistics_features(series):
     features = []

@@ -1,8 +1,8 @@
 import numpy as np
 import scipy.spatial as spatial
 
-from .special import time_series_cid_ce
-from .autocorrelation import time_series_all_autocorrelation
+# from .special import time_series_cid_ce
+# from .autocorrelation import time_series_all_autocorrelation
 
 # TODO:
 # 冗余性检查

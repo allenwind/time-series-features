@@ -14,14 +14,15 @@ class time_series_autocorrelation:
 
     def __call__(self, series):
         v = np.var(series)
+
+        # 如果方差太接近 0 自相关系数没有意义
         if np.isclose(v, 0):
             return np.nan
 
         y1 = series[:series.size-self.lag]
         y2 = series[self.lag:]
-        m = np.mean(x)
-        cov = np.sum((y1 - m) * (y2 - m))
-        return cov / ((series.size- self.lag) * v)
+        m = np.mean(series)
+        return np.sum((y1 - m) * (y2 - m)) / ((series.size - self.lag) * v)
 
 def time_series_all_autocorrelation(series):
     # 计算所有 lag 的自相关值, 计算方法可参考
@@ -29,11 +30,13 @@ def time_series_all_autocorrelation(series):
     # https://en.wikipedia.org/wiki/Autocorrelation#Efficient_computation
 
     n = series.size
-    auto = np.zeros(n)
+    rs = []
     for i in range(n):
+        r = 0
         for j in range(n-i):
-            auto[i] += series[j+i] * series[j]
-    return auto.tolist()
+            r += series[j+i] * series[j]
+        rs.append(r)
+    return rs
 
 class time_series_partial_autocorrelation:
 

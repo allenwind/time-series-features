@@ -1,4 +1,5 @@
-from tsfeatures import compute_features_size
+import numpy as np
+from tsfeatures import extract_time_series_all_features
 
 def _benchmark_test():
     import time
@@ -10,7 +11,8 @@ def _benchmark_test():
     for _ in range(retry):
         start = time.time()
         for _ in range(series_size-window_size):
-            _ = compute_features_size(window_size)
+            r = np.random.normal(size=window_size)
+            _ = extract_time_series_all_features(r)
         end = time.time()
         stats.append(end-start)
 

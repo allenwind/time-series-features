@@ -1,5 +1,5 @@
 import numpy as np
-import tsfresh.feature_extraction.feature_calculators as tsfc
+from .utils import cycle_rolling
 
 # 一些高级特征, 来自某些 paper 或专用与某个场景的特征
 # 实现中已经注明 papers.
@@ -14,18 +14,31 @@ def time_series_abs_sum(series):
 
 def time_series_c3(series, lag):
     # a measurement of non linearity
-    # paper: https://www.macalester.edu/~kaplan/knoxville/PRE05443.pdf
+    # paper:
+    # https://www.macalester.edu/~kaplan/knoxville/PRE05443.pdf
 
-    return tsfc.c3(series, lag)
+    n = len(series)
+    if 2 * lag >= n:
+        return 0
+    else:
+        return np.mean((cycle_rolling(x, 2 * -lag) * cycle_rolling(x, -lag) * x)[0:(n - 2 * lag)])
 
-def time_series_cid_ce(series, normalize=True):
+def time_series_cid_ce(series):
     # CID distance
-    # paper: http://www.cs.ucr.edu/~eamonn/Complexity-Invariant%20Distance%20Measure.pdf
+    # paper:
+    # http://www.cs.ucr.edu/~eamonn/Complexity-Invariant%20Distance%20Measure.pdf
 
-    return tsfc.cid_ce(series, normalize)
+    d = np.diff(series)
+    return np.sqrt(np.dot(d, d))
 
 def time_series_time_reversal_asymmetry_statistic(series, lag):
     # paper: 
     # Highly comparative feature-based time-series classification
     
-    return tsfc.time_reversal_asymmetry_statistic(series, lag)
+    n = len(series)
+    if 2 * lag >= n:
+        return 0
+    else:
+        one_lag = cycle_rolling(series, -lag)
+        two_lag = cycle_rolling(series, 2 * -lag)
+        return np.mean((two_lag * two_lag * one_lag - one_lag * series * series)[0:(n - 2 * lag)])

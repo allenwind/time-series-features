@@ -1,8 +1,9 @@
 import numpy as np
 import scipy.stats as stats
-import tsfresh.feature_extraction.feature_calculators as tsfc
+from .utils import cycle_rolling
 
 # 度量时序改变的特征
+# 在磁盘故障预测中，需要大量这种特征
 
 def time_series_mean_change(series):
     # 度量时序的变化
@@ -33,7 +34,8 @@ def time_series_mean_second_derivative_central(series):
     # wiki:
     # https://en.wikipedia.org/wiki/Finite_difference#Higher-order_differences
     
-    return tsfc.mean_second_derivative_central(series)
+    d = (cycle_rolling(series, 1) - 2 * np.array(series) + cycle_rolling(series, -1)) / 2
+    return np.mean(d[1:-1])
 
 class time_series_zero_crossing:
 
@@ -52,7 +54,8 @@ def time_series_number_crossing_m(series, m):
     # stackoverflow: 
     # https://stackoverflow.com/questions/3843017/efficiently-detect-sign-changes-in-python
 
-    return tsfc.number_crossing_m(series, m)
+    positive = series > m
+    return np.where(np.bitwise_xor(positive[1:], positive[:-1]))[0].size
 
 class time_series_willison_amplitude:
     
@@ -68,7 +71,7 @@ class time_series_willison_amplitude:
 
 def time_series_derivative_number_crossing_mean(series):
     d = np.diff(series)
-    return tsfc.number_crossing_m(d, np.mean(d))
+    return time_series_number_crossing_m(d, np.mean(d))
 
 def extract_time_series_change_features(series):
     features = []

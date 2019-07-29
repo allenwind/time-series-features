@@ -1,10 +1,12 @@
 import numpy as np
 import scipy.stats as stats
-import tsfresh.feature_extraction.feature_calculators as tsfc
 
 # 度量时序的分散情况
 # 可以参考如下资料
 # https://en.wikipedia.org/wiki/Statistical_dispersion
+
+def time_series_location_range(series):
+    return series[-1] - series[0]
 
 def time_series_range(series):
     return np.max(series) - np.min(series)
@@ -13,50 +15,26 @@ def time_series_center(series):
     # 极值中心
     return (np.max(series) + np.min(series)) / 2
 
-def time_series_count_above_mean(x):
-    return tsfc.count_above_mean(x)
-
-def time_series_count_below_mean(x):
-    return tsfc.count_below_mean(x)
-
-def time_series_longest_strike_above_mean(series):
-    return tsfc.longest_strike_above_mean(series)
-
-def time_series_longest_strike_below_mean(series):
-    return tsfc.longest_strike_below_mean(series)
-
 def time_series_has_duplicate(series):
-    return int(tsfc.has_duplicate(series))
+    # 有冗余
+    return series.size != np.unique(series).size
 
 def time_series_has_duplicate_min(series):
-    return int(tsfc.has_duplicate_min(series))
+    return np.sum(series == np.min(series)) >= 2
 
 def time_series_has_duplicate_max(series):
-    return int(tsfc.has_duplicate_max(series))
+    return np.sum(series == np.max(series)) >= 2
 
-def time_series_variance_larger_than_standard_deviation(series):
-    return int(tsfc.variance_larger_than_standard_deviation(series))
+def time_series_ratio_of_unique_number_to_length(series):
+    return np.unique(series).size / series.size
 
-def time_series_large_standard_deviation(series, r):
-    return tsfc.large_standard_deviation(series, r)
+class time_series_large_standard_deviation:
 
-def time_series_sum_of_reoccurring_data_points(series):
-    return tsfc.sum_of_reoccurring_data_points(series)
+    def __init__(self, r):
+        self.r = r
 
-def time_series_sum_of_reoccurring_values(series):
-    return tsfc.sum_of_reoccurring_values(series)
-
-def time_series_ratio_value_number_to_time_series_length(series):
-    return tsfc.ratio_value_number_to_time_series_length(series)
-
-def time_series_percentage_of_reoccurring_values_to_all_values(series):
-    return tsfc.percentage_of_reoccurring_values_to_all_values(series)
-
-def time_series_percentage_of_reoccurring_datapoints_to_all_datapoints(series):
-    return tsfc.percentage_of_reoccurring_datapoints_to_all_datapoints(series)
-
-def time_series_max_langevin_fixed_point(series, r, m):
-    return tsfc.max_langevin_fixed_point(series, r, m)
+    def __call__(self, series):
+        return np.std(series) > (self.r * time_series_range(series))
 
 class time_series_over_k_sigma_ratio:
     
@@ -64,7 +42,7 @@ class time_series_over_k_sigma_ratio:
         self.k = k
 
     def __init__(self, series):
-        return tsfc.ratio_beyond_r_sigma(series, self.k)
+        return np.sum(np.abs(series - np.mean(series)) > r * np.std(series)) / series.size
 
 def time_series_median_absolute_deviation(series):
     # 度量时序的变化
@@ -132,10 +110,6 @@ def extract_time_series_dispersion_features(series):
 
     features.append(time_series_range(series))
     features.append(time_series_center(series))
-    features.append(time_series_count_above_mean(series))
-    features.append(time_series_count_above_mean(series))
-    features.append(time_series_longest_strike_above_mean(series))
-    features.append(time_series_longest_strike_below_mean(series))
     features.append(time_series_has_duplicate(series))
     features.append(time_series_has_duplicate_min(series))
     features.append(time_series_has_duplicate_max(series))

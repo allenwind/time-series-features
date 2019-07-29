@@ -33,6 +33,8 @@ def time_series_dtw_distance(series1, series2):
     pass
 
 def check_time_series(series):
+    # 验证时间序列是否满足需要的格式
+
     if not isinstance(series, np.array):
         raise ValueError("only support numpy array")
     
@@ -55,6 +57,10 @@ def find_time_series_max_periodic(series, offset=1):
     auto = np.array(auto[offset:])
     return int(np.argmax(auto)) + 1
 
+def cycle_rolling(series, rotate):
+    idx = rotate % len(series)
+    return np.concatenate([series[-idx:], series[:-idx]])
+
 def mahalanobis_distance(obs, X, center="zero"):
     # mahalanobis distance of obs to X
     # wiki:
@@ -62,6 +68,7 @@ def mahalanobis_distance(obs, X, center="zero"):
 
     # 使用这个方法的参考 paper:
     # Online Anomaly Detection for Hard Disk Drives Based on Mahalanobis Distance
+    # 事实上，它可以结合 KNN 使用，提升分类性能
 
     # 计算协方差矩阵
     cov = np.cov(X.T)

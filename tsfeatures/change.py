@@ -7,6 +7,7 @@ from .utils import cycle_rolling
 
 def time_series_mean_change(series):
     # 度量时序的变化
+    # 等价于 dispersion.time_series_location_range(series)
     return np.mean(np.diff(series))
 
 def time_series_absolute_sum_of_changes(series):

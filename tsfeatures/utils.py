@@ -79,7 +79,7 @@ def mahalanobis_distance(obs, X, center="zero"):
     else:
         center = np.mean(X, axis=0)
 
-    # 矩阵的伪逆
+    # 矩阵的逆不一定存在，这里使用矩阵的伪逆
     icov = np.linalg.pinv(cov)
     # 计算 obs 到 center 的 Mahalanobis distance
     d = spatial.distance.mahalanobis(obs, center, icov)

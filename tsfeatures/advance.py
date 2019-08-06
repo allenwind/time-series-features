@@ -1,3 +1,10 @@
+from keras.layers import Dense
+from keras.layers import TimeDistributed
+from keras.layers import Bidirectional
+from keras.layers import LSTM
+from keras.layers import Input
+from keras.layers import RepeatVector
+from keras.models import Model
 
 # TODO@深度学习的特征提取
 # 包括自编码器和变分自编码器
@@ -7,8 +14,19 @@
 # 1. LSTM-based Encoder-Decoder for Multi-sensor Anomaly Detection https://arxiv.org/pdf/1607.00148.pdf
 # 2. Time-series Extreme Event Forecasting with Neural Networks at Uber
 
-class _AE:
-    pass
+class LSTMAE:
 
-class _VAE:
-    pass
+    def __init__(self, n_steps, n_features, units):
+        self.n_steps = n_steps
+        self.n_features = n_features
+        self.units = units
+        self._build()
+
+    def _build(self):
+        pass
+
+    def fit(self, X, y=None):
+        pass
+
+    def fit_transform(self, X, y=None):
+        pass

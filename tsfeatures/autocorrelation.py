@@ -22,6 +22,7 @@ class time_series_autocorrelation:
         y1 = series[:series.size-self.lag]
         y2 = series[self.lag:]
         m = np.mean(series)
+        # 可以理解为两个自序列的协方差
         return np.sum((y1 - m) * (y2 - m)) / ((series.size - self.lag) * v)
 
 def time_series_all_autocorrelation(series):
@@ -65,50 +66,23 @@ class time_series_partial_autocorrelation:
         return [("lag_{}".format(lag["lag"]), pacf_coeffs[lag["lag"]]) for lag in param]
 
 
-def time_series_binned_autocorrelation(series):
-    max_bins = [2, 3, 4, 5, 6, 7]
-    size = len(series) - 3
-    values = []
-    for value in max_bins:
-        lag = size // value
-        c = time_series_autocorrelation(lag)(series)
-        if c is np.nan:
-            c = 0
-        values.append(c)
-    return values
-
-class time_series_agg_autocorrelation:
-
-    def __init__(self, maxlag, func=None):
-        if func is None:
-            func = np.mean
-
-        if func not in [np.mean, np.median, np.var, np.max]:
-            raise ValueError(func)
-        self.maxlag = maxlag
-        self.func = func
-
-    def __call__(self, series):
+    def time_series_binned_partial_autocorrelation(series):
+        max_bins = [2, 3, 4, 5, 6, 7]
+        size = len(series) - 3
         values = []
-        for lag in range(1, self.maxlag):
-            value = time_series_autocorrelation(series, lag)
-            values.append(value)
-        return self.func(np.array(values))
-
-def time_series_binned_partial_autocorrelation(series):
-    max_bins = [2, 3, 4, 5, 6, 7]
-    size = len(series) - 3
-    values = []
-    for value in max_bins:
-        lag = size // value
-        c = time_series_partial_autocorrelation(series, [{"lag": lag}])[0][1]
-        if c is np.nan:
-            c = 0
-        values.append(c)
-    return values
+        for value in max_bins:
+            lag = size // value
+            c = time_series_partial_autocorrelation(series, lag)
+            if c is np.nan:
+                c = 0
+            values.append(c)
+        return values
 
 def time_series_periodic_features(series):
     return  []
+
+def time_series_dtw(s1, s2):
+    pass
 
 def extract_time_series_autocorrelation_based_features(series):
     features = []

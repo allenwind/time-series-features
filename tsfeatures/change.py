@@ -1,6 +1,5 @@
 import numpy as np
 import scipy.stats as stats
-from .utils import cycle_rolling
 
 # 度量时序改变的特征
 # 在磁盘故障预测中，需要大量这种特征
@@ -35,7 +34,7 @@ def time_series_mean_second_derivative_central(series):
     # wiki:
     # https://en.wikipedia.org/wiki/Finite_difference#Higher-order_differences
     
-    d = (cycle_rolling(series, 1) - 2 * np.array(series) + cycle_rolling(series, -1)) / 2
+    d = (np.roll(series, 1) - 2 * np.array(series) + np.roll(series, -1)) / 2
     return np.mean(d[1:-1])
 
 class time_series_zero_crossing:

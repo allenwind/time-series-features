@@ -4,9 +4,11 @@ import scipy.stats as stats
 # 最基本的统计特征
 
 def time_series_maximum(series):
+    # 最大值
     return np.max(series)
 
 def time_series_minimum(series):
+    # 最小值
     return np.min(series)
 
 def time_series_mean(series):
@@ -28,9 +30,11 @@ def time_series_variance(series):
     return np.var(series)
 
 def time_series_kurtosis(series):
+    # 四阶矩，度量分布的峰度
     return stats.kurtosis(series)
 
 def time_series_skewness(series):
+    # 三阶矩，度量分布的偏度
     return stats.skew(series)
 
 def time_series_length(series):
@@ -42,7 +46,7 @@ def time_series_gmean(series):
 
 def time_series_hmean(series):
     # 调和均值
-    # 预处理数据时不能以零为中心
+    # 不能存在 0 取值元素
     return stats.hmean(series)
 
 def time_series_coefficient_of_variation(series):

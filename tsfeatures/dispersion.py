@@ -9,21 +9,12 @@ def time_series_location_range(series):
     return series[-1] - series[0]
 
 def time_series_range(series):
+    # 极差
     return np.max(series) - np.min(series)
 
 def time_series_center(series):
     # 极值中心
     return (np.max(series) + np.min(series)) / 2
-
-def time_series_has_duplicate(series):
-    # 有冗余
-    return series.size != np.unique(series).size
-
-def time_series_has_duplicate_min(series):
-    return np.sum(series == np.min(series)) >= 2
-
-def time_series_has_duplicate_max(series):
-    return np.sum(series == np.max(series)) >= 2
 
 def time_series_ratio_of_unique_number_to_length(series):
     return np.unique(series).size / series.size
@@ -94,7 +85,7 @@ class time_series_median_absolute_deviation_around_a_central_point(
     time_series_mean_absolute_deviation_around_a_central_point):
 
     # 继承自 time_series_mean_absolute_deviation_around_a_central_point
-    # 但是用 median 替代 mean, 使用 median 度量 location 变化的论文可以参考:
+    # 但是用 median 替代 mean. 使用 median 度量 location 变化的论文可以参考:
     # https://www.sciencedirect.com/science/article/pii/S0167947302000786
     # 磁盘异常检测中也使用这个特征
 
@@ -110,9 +101,6 @@ def extract_time_series_dispersion_features(series):
 
     features.append(time_series_range(series))
     features.append(time_series_center(series))
-    features.append(time_series_has_duplicate(series))
-    features.append(time_series_has_duplicate_min(series))
-    features.append(time_series_has_duplicate_max(series))
 
     # features.append(time_series_median_absolute_deviation(series)) duplicate
     features.extend(time_series_mean_absolute_deviation_around_a_central_point("all")(series))

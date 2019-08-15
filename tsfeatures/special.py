@@ -1,5 +1,4 @@
 import numpy as np
-from .utils import cycle_rolling
 
 # 一些高级特征, 来自某些 paper 或专用与某个场景的特征
 # 实现中已经注明 papers.
@@ -21,7 +20,7 @@ def time_series_c3(series, lag):
     if 2 * lag >= n:
         return 0
     else:
-        return np.mean((cycle_rolling(x, 2 * -lag) * cycle_rolling(x, -lag) * x)[0:(n - 2 * lag)])
+        return np.mean((np.roll(x, 2 * -lag) * np.roll(x, -lag) * x)[0:(n - 2 * lag)])
 
 def time_series_cid_ce(series):
     # CID distance
@@ -39,6 +38,6 @@ def time_series_time_reversal_asymmetry_statistic(series, lag):
     if 2 * lag >= n:
         return 0
     else:
-        one_lag = cycle_rolling(series, -lag)
-        two_lag = cycle_rolling(series, 2 * -lag)
+        one_lag = np.roll(series, -lag)
+        two_lag = np.roll(series, 2 * -lag)
         return np.mean((two_lag * two_lag * one_lag - one_lag * series * series)[0:(n - 2 * lag)])

@@ -18,10 +18,10 @@ def time_series_last_location_of_minimum(series):
     return len(series) - np.argmin(series[::-1])
 
 def time_series_first_location_of_nonzero(series):
-    pass
+    return np.where(series==0)[0][0]
 
 def time_series_last_location_of_nonzero(series):
-    pass
+    return np.where(series==0)[0][-1]
 
 def time_series_derivative_first_location_of_maximum(series):
     return time_series_first_location_of_maximum(np.diff(series))

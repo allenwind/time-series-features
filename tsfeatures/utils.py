@@ -57,8 +57,10 @@ def find_time_series_max_periodic(series, offset=1):
     auto = np.array(auto[offset:])
     return int(np.argmax(auto)) + 1
 
-def cycle_rolling(series, rotate):
-    idx = rotate % len(series)
+def roll_series(series, rotate):
+    # 弃用，直接使用 np.roll
+    # rotate > 0 向右 rotate
+    idx = rotate % series.size
     return np.concatenate([series[-idx:], series[:-idx]])
 
 def mahalanobis_distance(obs, X, center="zero"):
@@ -84,3 +86,13 @@ def mahalanobis_distance(obs, X, center="zero"):
     # 计算 obs 到 center 的 Mahalanobis distance
     d = spatial.distance.mahalanobis(obs, center, icov)
     return d
+
+def dtw(s1, s2, w):
+    # 基于动态规划实现的 dtw
+    w = max(abs(s1.size-s2.size), w)
+    s = np.eye(s1.size, s2.size)
+    for i in range(1, s1.size):
+        for j in range(max(1, w-i), min(s2.size, w+i)):
+            d = abs(s1[i]-s2[j])
+            s[i,j] = d + min(s[i-1,j-1], s[i, j-1], s[i-1,j])
+    return s[-1,-1], np.argmin(s, axis=0)

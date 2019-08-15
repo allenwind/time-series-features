@@ -1,8 +1,6 @@
 import numpy as np
 import scipy.signal as signal
 
-from .utils import cycle_rolling
-
 # 和 peak 有关的特征, 通常用在时间序列分类和异常检测中
 # TODO 添加 I/O latency 相关的峰值特征, 参考 paper:
 # Finding soon-to-fail disks in a haystack 
@@ -31,14 +29,14 @@ def time_series_number_peaks(series, n):
 
     res = None
     for i in range(1, n + 1):
-        result_first = (x_reduced > cycle_rolling(x, i)[n:-n])
+        result_first = (x_reduced > np.roll(x, i)[n:-n])
 
         if res is None:
             res = result_first
         else:
             res &= result_first
 
-        res &= (x_reduced > cycle_rolling(x, -i)[n:-n])
+        res &= (x_reduced > np.roll(x, -i)[n:-n])
     return np.sum(res)
 
 def time_series_number_cwt_peaks(series, n):

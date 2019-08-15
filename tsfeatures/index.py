@@ -34,7 +34,6 @@ def extract_time_series_anomaly_features(series):
 
 def extract_time_series_classification_features(series):
     features = []
-    # TODO@dtw
     features.extend(extract_time_series_statistics_features(series))
     return np.array(features)
 

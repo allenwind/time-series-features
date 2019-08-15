@@ -19,11 +19,11 @@ class time_series_autocorrelation:
         if np.isclose(v, 0):
             return np.nan
 
-        y1 = series[:series.size-self.lag]
-        y2 = series[self.lag:]
         m = np.mean(series)
+        y1 = series[self.lag:]
+        y2 = series[:-self.lag]
         # 可以理解为两个自序列的协方差
-        return np.sum((y1 - m) * (y2 - m)) / ((series.size - self.lag) * v)
+        return np.sum((y1 - m) * (y2 - m)) / (y1.size * v)
 
 def time_series_all_autocorrelation(series):
     # 计算所有 lag 的自相关值, 计算方法可参考
@@ -65,24 +65,24 @@ class time_series_partial_autocorrelation:
 
         return [("lag_{}".format(lag["lag"]), pacf_coeffs[lag["lag"]]) for lag in param]
 
+def time_series_all_partial_autocorrelation(series):
+    # TODO
+    pass
 
-    def time_series_binned_partial_autocorrelation(series):
-        max_bins = [2, 3, 4, 5, 6, 7]
-        size = len(series) - 3
-        values = []
-        for value in max_bins:
-            lag = size // value
-            c = time_series_partial_autocorrelation(series, lag)
-            if c is np.nan:
-                c = 0
-            values.append(c)
-        return values
+def time_series_binned_partial_autocorrelation(series):
+    max_bins = [2, 3, 4, 5, 6, 7]
+    size = len(series) - 3
+    values = []
+    for value in max_bins:
+        lag = size // value
+        c = time_series_partial_autocorrelation(series, lag)
+        if c is np.nan:
+            c = 0
+        values.append(c)
+    return values
 
 def time_series_periodic_features(series):
     return  []
-
-def time_series_dtw(s1, s2):
-    pass
 
 def extract_time_series_autocorrelation_based_features(series):
     features = []

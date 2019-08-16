@@ -1,7 +1,11 @@
+import itertools
+import collections
+
 import numpy as np
 import scipy.signal as signal
 
 # 和 peak 有关的特征, 通常用在时间序列分类和异常检测中
+
 # TODO 添加 I/O latency 相关的峰值特征, 参考 paper:
 # Finding soon-to-fail disks in a haystack 
 # http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.564.7041&rep=rep1&type=pdf

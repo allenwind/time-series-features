@@ -28,12 +28,14 @@ class time_series_large_standard_deviation:
         return np.std(series) > (self.r * time_series_range(series))
 
 class time_series_over_k_sigma_ratio:
+
+    # 超过 k sigma 的比例
     
     def __init__(self, k):
         self.k = k
 
     def __init__(self, series):
-        return np.sum(np.abs(series - np.mean(series)) > r * np.std(series)) / series.size
+        return np.sum(np.abs(series - np.mean(series)) > self.k * np.std(series)) / series.size
 
 def time_series_median_absolute_deviation(series):
     # 度量时序的变化
@@ -99,10 +101,11 @@ class time_series_median_absolute_deviation_around_a_central_point(
 def extract_time_series_dispersion_features(series):
     features = []
 
+    features.append(time_series_location_range(series))
     features.append(time_series_range(series))
     features.append(time_series_center(series))
 
-    # features.append(time_series_median_absolute_deviation(series)) duplicate
+    # features.append(time_series_median_absolute_deviation(series)) as duplicate
     features.extend(time_series_mean_absolute_deviation_around_a_central_point("all")(series))
     features.extend(time_series_median_absolute_deviation_around_a_central_point("all")(series))
     

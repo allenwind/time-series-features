@@ -49,13 +49,17 @@ class time_series_zero_crossing:
         sign = np.heaviside(series[1:], 0)
         return np.sum(sign * np.abs(np.diff(series)) >= self.threshold)
 
-def time_series_number_crossing_m(series, m):
+class time_series_number_crossing_m:
     # a method to detect sign changes
     # stackoverflow: 
     # https://stackoverflow.com/questions/3843017/efficiently-detect-sign-changes-in-python
 
-    positive = series > m
-    return np.where(np.bitwise_xor(positive[1:], positive[:-1]))[0].size
+    def __init__(self, m):
+        self.m = m
+
+    def __call__(self, series):
+        positive = series > self.m
+        return np.where(np.bitwise_xor(positive[1:], positive[:-1]))[0].size
 
 class time_series_willison_amplitude:
     
@@ -71,7 +75,7 @@ class time_series_willison_amplitude:
 
 def time_series_derivative_number_crossing_mean(series):
     d = np.diff(series)
-    return time_series_number_crossing_m(d, np.mean(d))
+    return time_series_number_crossing_m(np.mean(d))(d)
 
 def extract_time_series_change_features(series):
     features = []

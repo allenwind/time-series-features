@@ -3,7 +3,6 @@ import scipy.stats as stats
 from statsmodels.tsa.stattools import pacf
 
 # 自相关和时序周期有关的特征
-# TODO fft
 
 class time_series_autocorrelation:
     
@@ -66,20 +65,12 @@ class time_series_partial_autocorrelation:
         return [("lag_{}".format(lag["lag"]), pacf_coeffs[lag["lag"]]) for lag in param]
 
 def time_series_all_partial_autocorrelation(series):
-    # TODO
+    # 所有偏自相关系数
     pass
 
-def time_series_binned_partial_autocorrelation(series):
-    max_bins = [2, 3, 4, 5, 6, 7]
-    size = len(series) - 3
-    values = []
-    for value in max_bins:
-        lag = size // value
-        c = time_series_partial_autocorrelation(series, lag)
-        if c is np.nan:
-            c = 0
-        values.append(c)
-    return values
+def time_series_all_fft_coefficient(series):
+    # 所有 fft 系数
+    pass
 
 def time_series_periodic_features(series):
     return  []
@@ -88,5 +79,4 @@ def extract_time_series_autocorrelation_based_features(series):
     features = []
 
     features.extend(time_series_all_autocorrelation(series))
-    features.extend(time_series_binned_partial_autocorrelation(series))
     return features

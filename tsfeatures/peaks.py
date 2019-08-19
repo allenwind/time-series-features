@@ -28,23 +28,34 @@ def time_series_longest_strike_above_mean(series):
 def time_series_longest_strike_below_mean(series):
     return np.max(_get_length_sequences_where(x <= np.mean(x))) if x.size > 0 else 0
 
-def time_series_number_peaks(series, n):
-    x_reduced = x[n:-n]
+class time_series_number_peaks:
 
-    res = None
-    for i in range(1, n + 1):
-        result_first = (x_reduced > np.roll(x, i)[n:-n])
+    def __init__(self, n):
+        self.n = n
 
-        if res is None:
-            res = result_first
-        else:
-            res &= result_first
+    def __call__(self, series):
+        n = self.n
+        x_reduced = x[n:-n]
 
-        res &= (x_reduced > np.roll(x, -i)[n:-n])
-    return np.sum(res)
+        res = None
+        for i in range(1, n + 1):
+            result_first = (x_reduced > np.roll(x, i)[n:-n])
 
-def time_series_number_cwt_peaks(series, n):
-    return len(signal.find_peaks_cwt(vector=x, widths=np.array(list(range(1, n + 1))), wavelet=signal.ricker))
+            if res is None:
+                res = result_first
+            else:
+                res &= result_first
+
+            res &= (x_reduced > np.roll(x, -i)[n:-n])
+        return np.sum(res)
+
+class time_series_number_cwt_peaks:
+
+    def __init__(self, n):
+        self.n = n
+
+    def __call__(self, series):
+        return len(signal.find_peaks_cwt(vector=series, widths=np.array(list(range(1, self.n + 1))), wavelet=signal.ricker))
 
 class time_series_number_peaks_over_k_standard_deviations:
 
@@ -64,7 +75,7 @@ class time_series_number_peaks_over_k_standard_deviations:
         for v in series:
             if v >= k_std:
                 n += 1
-                if n > d:
+                if n >= d:
                     count += 1
             else:
                 n = 0

@@ -1,9 +1,13 @@
 import numpy as np
-import scipy.stats as stats
 
 # 信息论或信号处理(小波)中的有关度量
+# entropy:
+# 1. approximate entropy
+# 2. binned entropy
+# 3. sample entropy
 
 def _phi(m):
+    N = x.size
     x_re = np.array([x[i:i+m] for i in range(N - m + 1)])
     C = np.sum(np.max(np.abs(x_re[:, np.newaxis] - x_re[np.newaxis, :]),
                       axis=2) <= r, axis=0) / (N-m+1)
@@ -23,7 +27,7 @@ def time_series_approximate_entropy(series, m, r):
 def time_series_binned_entropy(series, max_bins):
     hist, bin_edges = np.histogram(x, bins=max_bins)
     probs = hist / x.size
-    return - np.sum(p * np.math.log(p) for p in probs if p != 0)
+    return -np.sum(p * np.math.log(p) for p in probs if p != 0)
 
 def time_series_sample_entropy(series):
     x = np.array(x)
@@ -73,9 +77,3 @@ def time_series_mean_spectral_energy(series):
     # 时间序列的谱能量
     return np.mean(np.square(np.abs(np.fft.fft(series))))
 
-def time_series_binned_entropy(series):
-    max_bins = [2, 4, 6, 8, 10, 20]
-    values = []
-    for value in max_bins:
-        values.append(time_series_binned_entropy(series, value))
-    return values

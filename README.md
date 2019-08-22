@@ -141,6 +141,8 @@ class time_series_xx:
 
 ```
 
+获取 `np.array` 类型的长度使用 `size` 属性，而不是 `len`.
+
 ## 相关 paper
 
 更多相关的说明请看项目源码中的注释.

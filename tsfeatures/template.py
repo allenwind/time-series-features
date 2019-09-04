@@ -21,8 +21,9 @@ class time_series_xx:
     # 使用方法
     # feature = time_series_xx(params)(series)
     
-    def __init__(self, params):
-        self.params = params
+    def __init__(self, param1, param2):
+        self.param1 = param1
+        self.param2 = param2
 
     def __call__(self, series):
         pass

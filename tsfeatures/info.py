@@ -6,13 +6,6 @@ import numpy as np
 # 2. binned entropy
 # 3. sample entropy
 
-def _phi(m):
-    N = x.size
-    x_re = np.array([x[i:i+m] for i in range(N - m + 1)])
-    C = np.sum(np.max(np.abs(x_re[:, np.newaxis] - x_re[np.newaxis, :]),
-                      axis=2) <= r, axis=0) / (N-m+1)
-    return np.sum(np.log(C)) / (N - m + 1.0)
-
 class time_series_approximate_entropy:
 
     def __init__(self, m, r):
@@ -28,7 +21,14 @@ class time_series_approximate_entropy:
         r *= np.std(x)
         if n <= m+1:
             return 0
-        return np.abs(_phi(self.m) - _phi(self.m + 1))
+        return np.abs(self._phi(self.m, self.r) - self._phi(self.m+1, self.r))
+
+    def _phi(self, m, r):
+        N = x.size
+        x_re = np.array([x[i:i+m] for i in range(N - m + 1)])
+        C = np.sum(np.max(np.abs(x_re[:, np.newaxis] - x_re[np.newaxis, :]),
+                        axis=2) <= r, axis=0) / (N-m+1)
+        return np.sum(np.log(C)) / (N - m + 1.0)
 
 class time_series_binned_entropy:
     

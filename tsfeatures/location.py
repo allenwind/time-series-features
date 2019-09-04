@@ -18,9 +18,11 @@ def time_series_last_location_of_minimum(series):
     return len(series) - np.argmin(series[::-1])
 
 def time_series_first_location_of_nonzero(series):
+    # 第一个非零值索引
     return np.where(series==0)[0][0]
 
 def time_series_last_location_of_nonzero(series):
+    # 最后一个非零值索引
     return np.where(series==0)[0][-1]
 
 def time_series_derivative_first_location_of_maximum(series):
@@ -35,33 +37,43 @@ def time_series_derivative_first_location_of_minimum(series):
 def time_series_derivative_last_location_of_minimum(series):
     return time_series_last_location_of_minimum(np.diff(series))
 
-def time_series_gradient_last_over_k_sigma_index(series, k):
-    # 在使用 k sigma 进行 time series segmentation 时, 
-    # 可以使用这个函数. 当 series 服从正太分布式时, k 取 3 足够了.
-    # 这个函数不会加入 location features 中.
+class time_series_gradient_last_over_k_sigma_index:
 
-    dy = np.gradient(series)
-    mean = np.mean(dy)
-    k_std = k * np.std(dy)
-    for idx, v in enumerate(reversed(dy)):
-        if not ((mean-k_std) <= v <= (mean+k_std)):
-            break
-    else:
-        return -1
+    def __init__(self, k):
+        self.k = k
 
-    return (len(dy) - idx - 1) / len(series)
+    def __call__(self, series):
+        # 在使用 k sigma 进行 time series segmentation 时, 
+        # 可以使用这个函数. 当 series 服从正太分布式时, k 取 3 足够了.
+        # 这个函数不会加入 location features 中.
 
-def time_series_gradient_first_over_k_sigma_index(series, k):
-    dy = np.gradient(series)
-    mean = np.mean(dy)
-    k_std = k * np.std(dy)
-    for idx, v in enumerate(dy):
-        if not ((mean-k_std) <= v <= (mean+k_std)):
-            break
-    else:
-        return -1
+        dy = np.gradient(series)
+        mean = np.mean(dy)
+        k_std = self.k * np.std(dy)
+        for idx, v in enumerate(reversed(dy)):
+            if not ((mean-k_std) <= v <= (mean+k_std)):
+                break
+        else:
+            return -1
 
-    return idx / len(series)
+        return (len(dy) - idx - 1) / len(series)
+
+class time_series_gradient_first_over_k_sigma_index:
+
+    def __init__(self, k):
+        self.k = k
+
+    def __call__(self, series):
+        dy = np.gradient(series)
+        mean = np.mean(dy)
+        k_std = self.k * np.std(dy)
+        for idx, v in enumerate(dy):
+            if not ((mean-k_std) <= v <= (mean+k_std)):
+                break
+        else:
+            return -1
+
+        return idx / len(series)
 
 def extract_time_series_location_features(series):
     features = []

@@ -13,21 +13,32 @@ def _phi(m):
                       axis=2) <= r, axis=0) / (N-m+1)
     return np.sum(np.log(C)) / (N - m + 1.0)
 
-def time_series_approximate_entropy(series, m, r):
-    # 度量时间序列的波动的不可预测性
-    # wiki:
-    # https://en.wikipedia.org/wiki/Approximate_entropy
-    
-    n = len(series)
-    r *= np.std(x)
-    if n <= m+1:
-        return 0
-    return np.abs(_phi(m) - _phi(m + 1))
+class time_series_approximate_entropy:
 
-def time_series_binned_entropy(series, max_bins):
-    hist, bin_edges = np.histogram(x, bins=max_bins)
-    probs = hist / x.size
-    return -np.sum(p * np.math.log(p) for p in probs if p != 0)
+    def __init__(self, m, r):
+        self.m = m
+        self.r = r
+
+    def __call__(self, series):
+        # 度量时间序列的波动的不可预测性
+        # wiki:
+        # https://en.wikipedia.org/wiki/Approximate_entropy
+        
+        n = len(series)
+        r *= np.std(x)
+        if n <= m+1:
+            return 0
+        return np.abs(_phi(self.m) - _phi(self.m + 1))
+
+class time_series_binned_entropy:
+    
+    def __init__(self, max_bins):
+        self.max_bins = max_bins
+
+    def __call__(self, series):
+        hist, bin_edges = np.histogram(x, bins=self.max_bins)
+        probs = hist / x.size
+        return -np.sum(p * np.math.log(p) for p in probs if p != 0)
 
 def time_series_sample_entropy(series):
     x = np.array(x)

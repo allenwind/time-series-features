@@ -86,20 +86,24 @@ class time_series_double_exponential_moving_average:
                 temp_list.append(s[-1] - x[-1])
         return temp_list
 
-def time_series_trending_pattern(series, eps=EPS):
-    # 趋势模式
+class time_series_trending_pattern:
 
-    if eps is None:
-        eps = np.finfo(np.float32).eps
+    def __init__(self, eps=None):
+        self.eps = eps if eps else EPS
 
-    x = np.array(range(1, len(series)+1))
-    y = np.array(series)
-    A = np.vstack([x, np.ones(len(x))]).T
-    coef, _ = np.linalg.lstsq(A, y, rcond=None)[0]
-    if -eps < coef < eps:
-        return 0
-    else:
-        return np.sign(coef)
+    def __call__(self, series):
+        # 趋势模式
+        if eps is None:
+            eps = np.finfo(np.float32).eps
+
+        x = np.array(range(1, len(series)+1))
+        y = np.array(series)
+        A = np.vstack([x, np.ones(len(x))]).T
+        coef, _ = np.linalg.lstsq(A, y, rcond=None)[0]
+        if -eps < coef < eps:
+            return 0
+        else:
+            return np.sign(coef)
 
 def extract_time_series_fitting_features(series):
     # 目前只使用 EMA

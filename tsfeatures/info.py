@@ -68,8 +68,7 @@ class time_series_sample_entropy:
 
     def _phi(self, series, m, r):
         X = np.array([series[i:i+m] for i in range(series.size-m+1)])
-        E = np.sum(np.max(np.abs(X[:, np.newaxis] - X[np.newaxis, :]), axis=2) < r, axis=0)
-        return E
+        return np.sum(np.max(np.abs(X[:, np.newaxis] - X[np.newaxis, :]), axis=2) < r, axis=0)
 
 def time_series_sample_entropy(series):
     x = np.array(x)

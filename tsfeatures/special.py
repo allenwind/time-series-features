@@ -32,8 +32,8 @@ class time_series_c3:
         n = len(series)
         if 2 * self.lag >= n:
             return 0
-        else:
-            return np.mean((np.roll(x, 2 * -self.lag) * np.roll(x, -self.lag) * x)[0:(n - 2 * self.lag)])
+
+        return np.mean((np.roll(x, 2 * -self.lag) * np.roll(x, -self.lag) * x)[0:(n - 2 * self.lag)])
 
 class time_series_time_reversal_asymmetry_statistic:
 

@@ -1,12 +1,13 @@
 import numpy as np
 import scipy.stats as stats
-from statsmodels.tsa.stattools import pacf
 
 # 自相关和时序周期有关的特征
 
 class time_series_autocorrelation:
     
     # 时序的自相关系数
+    # wiki:
+    # https://en.wikipedia.org/wiki/Autocorrelation#Estimation
 
     def __init__(self, lag):
         self.lag = lag
@@ -22,19 +23,22 @@ class time_series_autocorrelation:
         y1 = series[self.lag:]
         y2 = series[:-self.lag]
         # 可以理解为两个自序列的协方差
-        return np.sum((y1 - m) * (y2 - m)) / (y1.size * v)
+        return np.sum((y1 - m) * (y2 - m)) / ((series.size-self.lag) * v)
 
 def time_series_all_autocorrelation(series):
-    # 计算所有 lag 的自相关值, 计算方法可参考
+    # 计算所有 lag 的自相关值, 这是一种快速计算的方法，每个 lag 值并非估计值。
+    # 计算方法可参考
     # wiki:
     # https://en.wikipedia.org/wiki/Autocorrelation#Efficient_computation
 
     n = series.size
     rs = []
-    for i in range(n):
+    for lag in range(n):
         r = 0
-        for j in range(n-i):
-            r += series[j+i] * series[j]
+        # 遍历(0, n-lag)范围
+        # 把相隔 lag 的元素相乘求和
+        for j in range(n-lag):
+            r += series[j+lag] * series[j]
         rs.append(r)
     return rs
 

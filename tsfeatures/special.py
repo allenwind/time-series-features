@@ -19,6 +19,50 @@ def time_series_cid_ce(series):
     d = np.diff(series)
     return np.sqrt(np.dot(d, d))
 
+class time_series_exponential_compress_representation:
+
+    # 变长序列的压缩表示
+    # 可以看作是 RNN 的特征提取过程
+
+    def __init__(self, alpha=0.95, maxlen=None):
+        # 遗忘系数
+        # 数值越大，对过去依赖越小
+        self.alpha = alpha
+        self.maxlen = maxlen
+
+    def __call__(self, series):
+        if self.maxlen is not None:
+            series = series[-self.maxlen:]
+        ht = series[0]
+        for xt in series[1:]:
+            ht = self.alpha * xt + (1-self.alpha) * ht
+        return ht
+
+class time_series_double_exponential_compress_representation:
+
+    # 同上
+
+    def __init__(self, alpha, beta, maxlen=None):
+        self.alpha = alpha
+        self.beta = beta # trend factor
+        self.maxlen = maxlen
+
+    def __call__(self, series):
+        if self.maxlen is not None:
+            series = series[-self.maxlen:]
+        if series.size <= 2:
+            return series[-1]
+        s = series[1]
+        b = series[1] - series[0]
+        for xt in series[2:]:
+            st = self.alpha * xt + (1-self.alpha)(s+b)
+            bt = self.beta * (st-s) + (1-self.beta)*b
+            # update
+            s = st
+            b = bt
+        ht = st + bt
+        return ht
+
 class time_series_c3:
 
     def __init__(self, lag):

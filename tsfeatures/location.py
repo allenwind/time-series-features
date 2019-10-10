@@ -5,6 +5,12 @@ import numpy as np
 # 例如我们想度量一个时间窗口内, 时序的最大增量, 我们需要知道,
 # 时序的最大值, 最小值, 首次最大值位置, 末次最小值未知.
 
+def time_series_last_value(series):
+    return series[-1]
+
+def time_series_first_value(series):
+    return series[0]
+
 def time_series_first_location_of_maximum(series):
     return np.argmax(series)
 

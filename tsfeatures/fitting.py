@@ -24,14 +24,15 @@ class time_series_weighted_moving_average:
 
     def __init__(self, weights):
         self.weights = weights
+        self.totals = np.sum(weights)
+        self.size = len(weights)
 
     def __call__(self, series):
-        temp_list = []
-        for w in range(1, min(50, DEFAULT_WINDOW), 5):
-            w = min(len(x), w)
-            coefficient = np.array(range(1, w + 1))
-            temp_list.append((np.dot(coefficient, x[-w:])) / float(w * (w + 1) / 2))
-        return list(np.array(temp_list) - x[-1])
+        hts = []
+        for i in range(series.size-self.size+1):
+            ht = np.dot(series[i:i+self.size], self.weights) / self.totals
+            hts.append(ht)
+        return hts
 
 class time_series_exponential_moving_average:
 
@@ -39,52 +40,33 @@ class time_series_exponential_moving_average:
         self.alpha = alpha
 
     def __call__(self, series):
-        values = []
-        x0 = series[0]
-        values.append(x0)
-        for v in series[1:]:
-            xt = self.alpha*v + (1-self.alpha)*x0
-            x0 = xt
-            values.append(xt)
-        return values
-
-class time_series_exponential_weighted_moving_average:
-    
-    def __init__(self, alpha):
-        self.alpha = alpha
-
-    def __call__(self, series):
-        temp_list = []
-        for j in range(1, 10):
-            alpha = j / 10.0
-            s = [x[0]]
-            for i in range(1, len(x)):
-                temp = alpha * x[i] + (1 - alpha) * s[-1]
-                s.append(temp)
-            temp_list.append(s[-1] - x[-1])
-        return temp_list
+        hts = [series[0]]
+        ht = series[0]
+        for xt in series[1:]:
+            ht = self.alpha * xt + (1-self.alpha) * ht
+            hts.append(ht)
+        return hts
 
 class time_series_double_exponential_moving_average:
-
+    
     def __init__(self, alpha, beta):
         self.alpha = alpha
-        self.beta = beta
+        self.beta = beta # trend factor
 
     def __call__(self, series):
-        temp_list = []
-        for j1 in range(1, 10, 2):
-            for j2 in range(1, 10, 2):
-                alpha = j1 / 10.0
-                gamma = j2 / 10.0
-                s = [x[0]]
-                b = [(x[3] - x[0]) / 3]  # s is the smoothing part, b is the trend part
-                for i in range(1, len(x)):
-                    temp1 = alpha * x[i] + (1 - alpha) * (s[-1] + b[-1])
-                    s.append(temp1)
-                    temp2 = gamma * (s[-1] - s[-2]) + (1 - gamma) * b[-1]
-                    b.append(temp2)
-                temp_list.append(s[-1] - x[-1])
-        return temp_list
+        if series.size == 1:
+            return series[-1]
+        s = series[1]
+        b = series[1] - series[0]
+        hts = [a+b]
+        for xt in series[2:]:
+            st = self.alpha * xt + (1-self.alpha)(s+b)
+            bt = self.beta * (st-s) + (1-self.beta)*b
+            # update
+            s = st
+            b = bt
+            hts.append(st+bt)
+        return hts
 
 class time_series_trending_pattern:
 

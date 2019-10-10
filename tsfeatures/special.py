@@ -91,7 +91,6 @@ class time_series_time_reversal_asymmetry_statistic:
         n = len(series)
         if 2 * self.lag >= n:
             return 0
-        else:
-            one_lag = np.roll(series, -self.lag)
-            two_lag = np.roll(series, 2 * -self.lag)
-            return np.mean((two_lag * two_lag * one_lag - one_lag * series * series)[0:(n - 2 * self.lag)])
+        one_lag = np.roll(series, -self.lag)
+        two_lag = np.roll(series, -2*self.lag)
+        return np.mean((two_lag * two_lag * one_lag - one_lag * series * series)[0:(n - 2 * self.lag)])

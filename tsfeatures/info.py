@@ -8,11 +8,18 @@ import numpy as np
 # 3. sample entropy
 # 这三个特征都可以用来度量复杂性, 因此可以用于分类任务.
 
+"""
+def _phi2(series, m, r):
+    X = _series2X(series, m)
+    C = np.sum(np.max(np.abs(X[:, np.newaxis] - X[np.newaxis, :]), axis=2) <= r, axis=0) / (series.size-m+1)
+    return np.sum(np.log(C)) / (series.size-m+1)
+"""
+
 class time_series_approximate_entropy:
 
-    def __init__(self, m=2, r=3):
-        self.m = m
-        self.r = r
+    def __init__(self, m=2, r=0.2):
+        self.m = m # 窗口大小
+        self.r = r # 阈值过滤等级
 
     def __call__(self, series):
         # 度量时间序列的波动的不可预测性
@@ -26,36 +33,35 @@ class time_series_approximate_entropy:
 
         r = self.r * np.std(series) # 过滤阈值
         m = self.m # 窗口大小
-        return np.abs(self._phi(series, m, r) - self._phi(series, m+1, r))
+        return self._phi(series, m, r) - self._phi(series, m+1, r)
 
     def _phi(self, series, m, r):
         # 转换为滑动窗口形式
-        X = np.array([series[i:i+m] for i in range(series.size-m+1)])
-        C = np.sum(np.max(np.abs(X[:, np.newaxis] - X[np.newaxis, :]), axis=2) <= r, axis=0) / (series.size-m+1)
-        return np.sum(np.log(C)) / (series.size-m+1)
+        X = self._series2X(series, m)
 
-class time_series_binned_entropy:
+        # 让所有向量互相作差
+        X1 = X[:, np.newaxis]
+        X2 = X[np.newaxis, :]
+        d = np.abs(X1 - X2)
 
-    # 直接进行简单的概率密度估计
-    # 根据熵的定义计算结果
+        # 计算 Chebyshev distance
+        d = np.max(d, axis=2)
+
+        # 距离小于 r 的计数
+        C = np.sum(d <=r , axis=0) / (series.size-m+1)
     
-    def __init__(self, bins=None):
-        self.bins = bins
+        # 计算 phi 值
+        phi = np.sum(np.log(C)) / (series.size-m+1)
+        return phi
 
-    def __call__(self, series):
-        probs, _ = np.histogram(series, bins=self.bins) / series.size
-        probs = probs[probs != 0] # 过滤 0, 否则取对数出现 np.inf
-        return -np.sum(probs * np.log(probs))
+    def _series2X(self, series, m):
+        return np.array([series[i:i+m] for i in range(series.size-m+1)])
 
-class time_series_sample_entropy:
+class time_series_sample_entropy(time_series_approximate_entropy):
 
     # 样本熵,度量时序复杂性的一种方式
     # wiki:
     # https://www.wikiwand.com/en/Sample_entropy
-
-    def __init__(self, m, r):
-        self.m = m
-        self.r = r
 
     def __call__(self, series):
         if series.size < self.m+1:
@@ -67,46 +73,34 @@ class time_series_sample_entropy:
         return -np.log(A/B)
 
     def _phi(self, series, m, r):
-        X = np.array([series[i:i+m] for i in range(series.size-m+1)])
-        return np.sum(np.max(np.abs(X[:, np.newaxis] - X[np.newaxis, :]), axis=2) < r, axis=0)
+        X = self._series2X(series, m)
+        # 转换为滑动窗口形式
+        X = self._series2X(series, m)
 
-def time_series_sample_entropy(series):
-    x = np.array(x)
+        # 让所有向量互相作差
+        X1 = X[:, np.newaxis]
+        X2 = X[np.newaxis, :]
+        d = np.abs(X1 - X2)
 
-    sample_length = 1 # number of sequential points of the time series
-    tolerance = 0.2 * np.std(x) # 0.2 is a common value for r - why?
+        # 计算 Chebyshev distance
+        d = np.max(d, axis=2)
 
-    n = len(x)
-    prev = np.zeros(n)
-    curr = np.zeros(n)
-    A = np.zeros((1, 1))  # number of matches for m = [1,...,template_length - 1]
-    B = np.zeros((1, 1))  # number of matches for m = [1,...,template_length]
+        # 所有距离小于 r 的计数
+        C = np.sum(d <= r)
+        return C
 
-    for i in range(n - 1):
-        nj = n - i - 1
-        ts1 = x[i]
-        for jj in range(nj):
-            j = jj + i + 1
-            if abs(x[j] - ts1) < tolerance:  # distance between two vectors
-                curr[jj] = prev[jj] + 1
-                temp_ts_length = min(sample_length, curr[jj])
-                for m in range(int(temp_ts_length)):
-                    A[m] += 1
-                    if j < n - 1:
-                        B[m] += 1
-            else:
-                curr[jj] = 0
-        for j in range(nj):
-            prev[j] = curr[j]
+class time_series_binned_entropy:
 
-    N = n * (n - 1) / 2
-    B = np.vstack(([N], B[0]))
+    # 直接进行简单的概率密度估计
+    # 根据熵的定义计算结果
+    
+    def __init__(self, bins=None):
+        self.bins = bins
 
-    # sample entropy = -1 * (log (A/B))
-    similarity_ratio = A / B
-    se = -1 * np.log(similarity_ratio)
-    se = np.reshape(se, -1)
-    return se[0]
+    def __call__(self, series):
+        probs, _ = np.histogram(series, bins=self.bins, density=True)
+        probs = probs[probs != 0] # 过滤 0, 否则取对数出现 np.inf
+        return -np.sum(probs * np.log(probs))
 
 def time_series_abs_energy(series):
     # 信号处理中的一个概念

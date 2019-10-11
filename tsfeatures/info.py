@@ -40,9 +40,10 @@ class time_series_approximate_entropy:
         X = self._series2X(series, m)
 
         # 让所有向量互相作差
-        X1 = X[:, np.newaxis]
-        X2 = X[np.newaxis, :]
-        d = np.abs(X1 - X2)
+        # 扩展维度以便使用 numpy 的 broadcasting
+        X1 = X[:, np.newaxis] # (_, 1, m)
+        X2 = X[np.newaxis, :] # (1, _, m)
+        d = np.abs(X1 - X2) # (_, _, m)
 
         # 计算 Chebyshev distance
         d = np.max(d, axis=2)

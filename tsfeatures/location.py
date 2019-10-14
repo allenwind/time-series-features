@@ -6,9 +6,11 @@ import numpy as np
 # 时序的最大值, 最小值, 首次最大值位置, 末次最小值未知.
 
 def time_series_last_value(series):
+    # 序列最后值
     return series[-1]
 
 def time_series_first_value(series):
+    # 序列首值
     return series[0]
 
 def time_series_first_location_of_maximum(series):

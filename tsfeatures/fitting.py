@@ -7,16 +7,17 @@ EPS = 1.1920929e-02
 class time_series_moving_average:
 
     # 移动平均
+    # 目前实现方式并非最高效，待优化
 
     def __init__(self, ws):
         self.ws = ws
 
     def __call__(self, series):
-        values = []
-        for w in range(1, 50, 5):
-            value = np.mean(series[-w:])
-            values.append(value)
-        return list(np.array(values) - series[-1])
+        hts = []
+        for i in range(series.size-self.ws+1):
+            ht = np.mean(series[i:i+self.ws])
+            hts.append(ht)
+        return hts
 
 class time_series_weighted_moving_average:
 

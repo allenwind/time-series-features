@@ -10,23 +10,28 @@ import scipy.signal as signal
 # Finding soon-to-fail disks in a haystack 
 # http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.564.7041&rep=rep1&type=pdf
 
-def _get_length_sequences_where(x):
-    res = [len(list(group)) for value, group in itertools.groupby(x) if value == 1]
-    return res if len(res) > 0 else [0]
+def _successive_groupby(bools):
+    # 输入布尔序列
+    # 然后进行连续分段
+    # 比如 bools = [0, 1, 1, 0, 0]
+    # 那么结果为 [1, 2, 2]
+    cs = [len(list(g)) for v, g in itertools.groupby(x) if v]
+    cs.append(0) # 避免输出空 array
+    return np.array(cs)
 
-def time_series_count_above_mean(x):
-    m = np.mean(x)
-    return np.where(x > m)[0].size
+def time_series_count_above_mean(series):
+    m = np.mean(series)
+    return np.where(series > m)[0].size
 
-def time_series_count_below_mean(x):
-    m = np.mean(x)
-    return np.where(x < m)[0].size
+def time_series_count_below_mean(series):
+    m = np.mean(series)
+    return np.where(series < m)[0].size
 
 def time_series_longest_strike_above_mean(series):
-    return np.max(_get_length_sequences_where(x >= np.mean(x))) if x.size > 0 else 0
+    return np.max(_successive_groupby(series >= np.mean(series))) if series.size > 0 else 0
 
 def time_series_longest_strike_below_mean(series):
-    return np.max(_get_length_sequences_where(x <= np.mean(x))) if x.size > 0 else 0
+    return np.max(_successive_groupby(series <= np.mean(series))) if series.size > 0 else 0
 
 class time_series_number_peaks:
 

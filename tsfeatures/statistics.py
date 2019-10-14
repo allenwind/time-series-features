@@ -24,9 +24,11 @@ def time_series_mode(series):
     return stats.mode(series).mode[0]
 
 def time_series_standard_deviation(series):
+    # 标准差
     return np.std(series)
 
 def time_series_variance(series):
+    # 方差
     return np.var(series)
 
 def time_series_kurtosis(series):
@@ -38,6 +40,7 @@ def time_series_skewness(series):
     return stats.skew(series)
 
 def time_series_length(series):
+    # 时序长度
     return len(series)
 
 def time_series_gmean(series):

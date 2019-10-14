@@ -74,7 +74,6 @@ class time_series_sample_entropy(time_series_approximate_entropy):
         return -np.log(A/B)
 
     def _phi(self, series, m, r):
-        X = self._series2X(series, m)
         # 转换为滑动窗口形式
         X = self._series2X(series, m)
 
@@ -87,8 +86,8 @@ class time_series_sample_entropy(time_series_approximate_entropy):
         d = np.max(d, axis=2)
 
         # 所有距离小于 r 的计数
-        C = np.sum(d <= r)
-        return C
+        c = np.sum(d <= r)
+        return c
 
 class time_series_binned_entropy:
 

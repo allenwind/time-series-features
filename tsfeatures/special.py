@@ -102,10 +102,14 @@ class time_series_double_exponential_compress_representation:
 
 class time_series_feature_successive_compress:
 
-    # i: [1, 1, 2, 2, 3, 0]
+    # i: [1, 1, 2, 2, 2, 3, 0]
     # o: [1, 2, 3, 0]
 
-    def __init__(self, func):
+    def __init__(self, func, maxlen=None):
         self.func = func
+
+    def __call__(self, series):
+        series = self.func(series)
+        return [v for v, _ in itertools.groupby(series)]
 
     

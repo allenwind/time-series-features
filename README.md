@@ -92,8 +92,6 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 1. [时间序列特征说明](./md/time-series-features.md)
 2. [时间序列平滑处理说明](./md/time-series-smoothing.md)
 
-除此之外，day of xx, week of xx，等特征建议从 pandas 中计算。
-
 ## 特征索引
 
 根据时间序列的使用场景, 我们对特征进行索引, 目前包括的使用场景:
@@ -110,6 +108,12 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 关于模型的先天"优越性"我们想到"没有免费午餐定理", 类似地, 特征也没有先天"优越性", 什么特征好或不好, 视使用场景而定.
 
 因此, 我们需要根据场景来选择我们需要的特征, 更直接的做法是在特征提取后做特征过滤.
+
+## 数据与特征
+
+在机器学习任务中，特征的使用伴随着数据探索的整个过程，可以说，使用什么特征等价于我们如何理解数据和机器学习任务。
+
+
 
 ## 实现模板
 
@@ -131,16 +135,16 @@ class time_series_xx:
 
     # 有参数的特征提取器实现模板
     # 可以使用类继承方法实现
-    # 返回类型为 float 或 list
+    # 返回类型为 float、int 或 list
     # 使用方法
     # feature = time_series_xx(params)(series)
     
-    def __init__(self, param1, param2):
-        self.param1 = param1
-        self.param2 = param2
+    def __init__(self, params):
+        self.params = params
 
     def __call__(self, series):
         pass
+
 ```
 
 获取 `np.array` 类型的长度使用 `size` 属性，而不是 `len`.

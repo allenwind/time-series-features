@@ -1,6 +1,6 @@
 # time series features
 
-在 [time-series-mission]() 中我们提到过，机器学习任务都建立在特征工程上。本项目实现时序场景下常用的特征。
+在 [time-series-mission](time-series-mission.git) 中我们提到过，机器学习任务都建立在特征工程上。本项目实现时序场景下常用的特征。
 
 ## 使用
 
@@ -91,6 +91,15 @@ class time_series_xx:
 ```
 
 获取 `np.array` 类型的长度使用 `size` 属性，而不是 `len`.
+
+## 使用例子
+
+为了更好地理解如何使用这个特征库，这里演示几个例子。
+
+例子：
+1. 时序预测
+2. 时序异常检测
+3. 时序分类
 
 ## 相关 paper
 

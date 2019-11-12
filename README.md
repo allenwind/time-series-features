@@ -36,6 +36,23 @@ API 兼容 scikit-learn 项目中, 可以配合 sklearn 上的模型使用.
 1. [时间序列特征说明](./md/time-series-features.md)
 2. [时间序列平滑处理说明](./md/time-series-smoothing.md)
 
+
+特征工程
+
+1. 普通特征 (统计特征、拟合特征、分类特征)
+2. dtw & wavelet
+3. autocorrelation
+4. reprecentation learning (深度学习自动特征提取)
+
+目前运用到预测中的特征包括：最大值、最小值、mean、median、方差、标准差、kurtosis、skewness 等等
+
+更丰富的时序特征提取模块见时间序列特征提取, 该模块包括了特征重要性评估
+
+1~3 的特征提取通过滑动窗口的方式进行,滑动步长通常为 1. 4 为深度学习中的自动特征提取方法, 通过我们会使用 CNN 提取局部特征, LSTM 提取长期依赖特征.下面会展开这方面方法.
+
+特征重要性评估
+
+
 ## 特征索引
 
 根据时间序列的使用场景, 我们对特征进行索引, 目前包括的使用场景:

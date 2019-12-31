@@ -33,6 +33,7 @@ def time_series_mean_second_derivative_central(series):
     # 度量时序的变化
     # wiki:
     # https://en.wikipedia.org/wiki/Finite_difference#Higher-order_differences
+    # O(h^2)
     
     d = (np.roll(series, 1) - 2 * np.array(series) + np.roll(series, -1)) / 2
     return np.mean(d[1:-1])
@@ -53,6 +54,8 @@ class time_series_number_crossing_m:
     # a method to detect sign changes
     # stackoverflow: 
     # https://stackoverflow.com/questions/3843017/efficiently-detect-sign-changes-in-python
+    # x = np.sign(x) [-1, 0, 1]
+    # np.sum(a ^ b for a, b in zip(x[1:], x[:-1]))
 
     def __init__(self, m):
         self.m = m

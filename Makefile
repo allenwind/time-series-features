@@ -1,5 +1,5 @@
 service=time-series-features
-package = github.smartx.com/smartx/prediction/${service}
+package = github.com/allenwind/time-series-features
 version = $(shell git describe --long --tags --dirty | awk '{print substr($$1,2)}')
 build_dir = _build
 

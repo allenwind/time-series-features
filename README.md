@@ -67,7 +67,7 @@ class time_series_xx:
 克隆项目到`{your_path}`，
 
 ```bash
-git clone 
+git clone https://github.com/allenwind/time-series-features.git
 ```
 
 打开`.bashrc`添加项目路径到`PYTHONPATH`环境变量中，

@@ -62,6 +62,8 @@ class time_series_xx:
 
 ## 使用
 
+本项目依赖：`numpy`、`scipy`。
+
 克隆项目到`{your_path}`，
 
 ```bash

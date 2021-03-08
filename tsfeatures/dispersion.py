@@ -100,11 +100,9 @@ class time_series_median_absolute_deviation_around_a_central_point(
 
 def extract_time_series_dispersion_features(series):
     features = []
-
     features.append(time_series_location_range(series))
     features.append(time_series_range(series))
     features.append(time_series_center(series))
-
     # features.append(time_series_median_absolute_deviation(series)) as duplicate
     features.extend(time_series_mean_absolute_deviation_around_a_central_point("all")(series))
     features.extend(time_series_median_absolute_deviation_around_a_central_point("all")(series))

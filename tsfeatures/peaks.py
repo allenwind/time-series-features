@@ -40,18 +40,18 @@ class time_series_number_peaks:
 
     def __call__(self, series):
         n = self.n
-        x_reduced = x[n:-n]
+        x_reduced = series[n:-n]
 
         res = None
         for i in range(1, n + 1):
-            result_first = (x_reduced > np.roll(x, i)[n:-n])
+            result_first = (x_reduced > np.roll(series, i)[n:-n])
 
             if res is None:
                 res = result_first
             else:
                 res &= result_first
 
-            res &= (x_reduced > np.roll(x, -i)[n:-n])
+            res &= (x_reduced > np.roll(series, -i)[n:-n])
         return np.sum(res)
 
 class time_series_number_cwt_peaks:
@@ -88,7 +88,6 @@ class time_series_number_peaks_over_k_standard_deviations:
 
 def extract_time_series_peak_features(series):
     features = []
-
-    features.append(time_series_number_peaks(series,2))
-    features.append(time_series_number_cwt_peaks(series, 2))
+    features.append(time_series_number_peaks(2)(series))
+    features.append(time_series_number_cwt_peaks(2)(series))
     return features

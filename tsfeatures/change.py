@@ -82,7 +82,6 @@ def time_series_derivative_number_crossing_mean(series):
 
 def extract_time_series_change_features(series):
     features = []
-
     features.append(time_series_mean_change(series))
     features.append(time_series_absolute_sum_of_changes(series))
     features.append(time_series_absolute_mean_of_changes(series))

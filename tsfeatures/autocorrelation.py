@@ -81,6 +81,5 @@ def time_series_periodic_features(series):
 
 def extract_time_series_autocorrelation_based_features(series):
     features = []
-
     features.extend(time_series_all_autocorrelation(series))
     return features

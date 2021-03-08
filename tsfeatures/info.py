@@ -8,13 +8,6 @@ import numpy as np
 # 3. sample entropy
 # 这三个特征都可以用来度量复杂性, 因此可以用于分类任务.
 
-"""
-def _phi2(series, m, r):
-    X = _series2X(series, m)
-    C = np.sum(np.max(np.abs(X[:, np.newaxis] - X[np.newaxis, :]), axis=2) <= r, axis=0) / (series.size-m+1)
-    return np.sum(np.log(C)) / (series.size-m+1)
-"""
-
 class time_series_approximate_entropy:
 
     def __init__(self, m=2, r=0.2):

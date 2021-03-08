@@ -27,7 +27,6 @@ time_series_ratio_of_duplicate_max = time_series_ratio_of_duplicate_feature(np.m
 
 def extract_time_series_duplicate_features(series):
     features = []
-
     features.append(time_series_ratio_of_duplicate(series))
     features.append(time_series_ratio_of_duplicate_min(series))
     features.append(time_series_ratio_of_duplicate_max(series))

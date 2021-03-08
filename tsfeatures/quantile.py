@@ -13,7 +13,6 @@ class time_series_quantile:
 
 def time_series_quantile_features(series):
 	features = []
-
 	features.append(time_series_quantile(1/4)(series))
 	features.append(time_series_quantile(1/3)(series))
 	return features

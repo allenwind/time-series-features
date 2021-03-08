@@ -91,6 +91,5 @@ class time_series_trending_pattern:
 def extract_time_series_fitting_features(series):
     # 目前只使用 EMA
     features = []
-
     features.extend(time_series_exponential_moving_average(0.95)(series))
     return features

@@ -70,7 +70,6 @@ def time_series_value_distribution(series):
 
 def extract_time_series_statistics_features(series):
     features = []
-
     # 基本统计特征
     features.append(time_series_minimum(series))
     features.append(time_series_maximum(series))

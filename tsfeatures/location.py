@@ -85,7 +85,6 @@ class time_series_gradient_first_over_k_sigma_index:
 
 def extract_time_series_location_features(series):
     features = []
-
     features.append(time_series_first_location_of_maximum(series))
     features.append(time_series_last_location_of_maximum(series))
     features.append(time_series_first_location_of_minimum(series))

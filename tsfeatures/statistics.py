@@ -11,6 +11,9 @@ def time_series_minimum(series):
     # 最小值
     return np.min(series)
 
+def time_series_range(series):
+    return np.max(series) - np.min(series)
+
 def time_series_mean(series):
     # 均值
     return np.mean(series)
